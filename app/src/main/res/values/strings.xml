@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">PadiCare</string>
+    <string name="signup">Sign Up</string>
+    <string name="signin">Sign In</string>
+    <string name="no_account">Belum Mempunyai Akun ?</string>
+    <string name="have_account">Sudah Mempunyai Akun ?</string>
+    <string name="register_here">Daftar Disini\n</string>
+    <string name="login_here">Masuk Disini</string>
+    <string name="home">Home</string>
+    <string name="berita">News</string>
+    <string name="history">History</string>
+    <string name="scan">Scan</string>
+    <string name="profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

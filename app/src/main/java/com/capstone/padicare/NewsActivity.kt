@@ -8,14 +8,15 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity() {
+class NewsActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        bottomNavigationView = findViewById(R.id.bottomNav)
-        bottomNavigationView.setOnNavigationItemSelectedListener(onBottomNavItemSelectedListener)
+        setContentView(R.layout.activity_news)
+
+        initViews()
+        initBottomNavigationView()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -23,7 +24,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val onBottomNavItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+    private fun initViews() {
+        bottomNavigationView = findViewById(R.id.bottomNav)
+    }
+
+    private fun initBottomNavigationView() {
+        bottomNavigationView.selectedItemId = R.id.news
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.home -> {
                 startActivity(Intent(this, MainActivity::class.java))
@@ -49,3 +56,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+    }
