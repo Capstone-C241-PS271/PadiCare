@@ -1,20 +1,21 @@
 package com.capstone.padicare
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.capstone.padicare.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.capstone.padicare.ui.history.HistoryFragment
+import com.capstone.padicare.ui.home.HomeFragment
+import com.capstone.padicare.ui.news.NewsFragment
+import com.capstone.padicare.ui.profile.ProfileFragment
+import com.capstone.padicare.ui.scan.ScanFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         replaceFragment(HomeFragment())

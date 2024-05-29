@@ -34,13 +34,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".StartedActivity"
+            android:name=".ui.started.StartedActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".ui.register.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:exported="false" />
     </application>
 
