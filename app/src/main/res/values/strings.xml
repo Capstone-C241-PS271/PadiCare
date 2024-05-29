@@ -15,4 +15,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="change_language">Change Language</string>
     <string name="logout">LOGOUT</string>
+    <string name="newsTitle">Judul Berita</string>
+    <string name="linkNews">Baca Selengkapnya</string>
 </resources>
