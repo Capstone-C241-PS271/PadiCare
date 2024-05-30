@@ -17,4 +17,5 @@
     <string name="logout">LOGOUT</string>
     <string name="newsTitle">Judul Berita</string>
     <string name="linkNews">Baca Selengkapnya</string>
+    <string name="contact">Contact Us</string>
 </resources>

@@ -7,15 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.provider.Settings
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
 import com.capstone.padicare.R
 import com.capstone.padicare.databinding.FragmentProfileBinding
-import com.capstone.padicare.ui.contact.ContactFragment
 
-
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(), View.OnClickListener {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +32,13 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
+        (activity as? AppCompatActivity)?.supportActionBar?.hide()
+
+        val buttonContact = binding?.btnContact
+        buttonContact?.setOnClickListener(this)
+
+        val buttonAbout = binding?.btnAbout
+        buttonAbout?.setOnClickListener(this)
     }
 
     private fun setupView() {
@@ -40,12 +46,13 @@ class ProfileFragment : Fragment() {
             btnBahasa.setOnClickListener {
                 startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
             }
-            btnContact.setOnClickListener {
-                // Mengganti Fragment dengan menggunakan FragmentTransaction
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, ContactFragment())
-                    .addToBackStack(null)
-                    .commit()
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.btn_contact -> {
+                findNavController().navigate(R.id.action_profileFragment_to_contactFragment)
             }
         }
     }
@@ -53,7 +60,6 @@ class ProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        (activity as? AppCompatActivity)?.supportActionBar?.show()
     }
-
-
 }
