@@ -30,29 +30,7 @@ class ContactFragment : Fragment() {
         return binding?.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-        val activity = activity as? AppCompatActivity
-        activity?.supportActionBar?.apply {
-            title = getString(R.string.contact)
-            setDisplayHomeAsUpEnabled(true)
-            setHomeButtonEnabled(true)
-            setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
-            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                // Handle the back button click here
-                findNavController().navigate(R.id.action_contactFragment_to_profileFragment)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

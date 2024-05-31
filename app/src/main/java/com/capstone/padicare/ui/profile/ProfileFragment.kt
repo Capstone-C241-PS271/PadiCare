@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.capstone.padicare.R
 import com.capstone.padicare.databinding.FragmentProfileBinding
+import com.capstone.padicare.ui.AboutAppFragment
+import com.capstone.padicare.ui.contact.ContactFragment
 
 class ProfileFragment : Fragment(), View.OnClickListener {
     private var _binding: FragmentProfileBinding? = null
@@ -49,10 +51,24 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    override fun onClick(v: View?) {
+    override fun onClick(v: View?){
+        val fragmentManager = parentFragmentManager
         when (v?.id) {
             R.id.btn_contact -> {
-                findNavController().navigate(R.id.action_profileFragment_to_contactFragment)
+                val contactUsFragment = ContactFragment()
+                fragmentManager.beginTransaction().apply {
+                    replace(R.id.fl_container, contactUsFragment, ContactFragment::class.java.simpleName)
+                    addToBackStack(null)
+                    commit()
+                }
+            }
+            R.id.btn_about -> {
+                val aboutAppFragment = AboutAppFragment()
+                fragmentManager.beginTransaction().apply {
+                    replace(R.id.fl_container, aboutAppFragment, AboutAppFragment::class.java.simpleName)
+                    addToBackStack(null)
+                    commit()
+                }
             }
         }
     }

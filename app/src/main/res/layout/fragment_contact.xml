@@ -21,36 +21,37 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Machine Learning"
-            android:textSize="16sp"
-            style="@style/TextAppearance.Material3.TitleMedium"
             android:textColor="@color/white"
-            android:textStyle="bold"/>
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nama\t : Muhammad Efendi"
-            android:textSize="14sp"
-            style="@style/TextAppearance.Material3.TitleMedium"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="14sp" />
 
         <TextView
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nama\t : Mohammad Hasan Tajuk Rizal"
-            android:textSize="14sp"
-            style="@style/TextAppearance.Material3.TitleMedium"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
         <TextView
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nama\t : Yudha Perwira Bima Sakti"
-            android:textSize="14sp"
-            style="@style/TextAppearance.Material3.TitleMedium"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
