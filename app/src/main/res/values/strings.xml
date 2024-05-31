@@ -21,4 +21,12 @@
     <string name="deskripsiAbout">Tim kami menemukan ide aplikasi PadiCare setelah menyadari tantangan yang dihadapi petani padi dalam mendeteksi penyakit yang mengancam tanaman mereka. Kami menyadari adanya kebutuhan mendesak akan solusi yang dapat menyederhanakan proses deteksi penyakit dan membantu petani melindungi tanaman padi mereka secara efektif. Kami fokus pada desain yang mudah digunakan dan bertujuan untuk menjembatani kesenjangan antara teknologi dan petani dengan keterampilan teknis yang minim, memastikan aksesibilitas yang luas dan kegunaan aplikasi. Komitmen tim kami untuk mendukung petani dan meningkatkan praktik pertanian mendorong kami untuk mengembangkan PadiCare, sebuah alat praktis yang dirancang untuk menyederhanakan deteksi penyakit dan mempromosikan praktik pertanian yang berkelanjutan.</string>
     <string name="analyze">ANALISA</string>
     <string name="gallery">GALERI</string>
+
+    <string name="deskripsiAbout">Tim kami menemukan ide aplikasi PadiCare setelah menyadari tantangan yang dihadapi petani padi dalam mendeteksi penyakit yang mengancam tanaman mereka. Kami menyadari adanya kebutuhan mendesak akan solusi yang dapat menyederhanakan proses deteksi penyakit dan membantu petani melindungi tanaman padi mereka secara efektif. Kami fokus pada desain yang mudah digunakan dan bertujuan untuk menjembatani kesenjangan antara teknologi dan petani dengan keterampilan teknis yang minim, memastikan aksesibilitas yang luas dan kegunaan aplikasi. Komitmen tim kami untuk mendukung petani dan meningkatkan praktik pertanian mendorong kami untuk mengembangkan PadiCare, sebuah alat praktis yang dirancang untuk menyederhanakan deteksi penyakit dan mempromosikan praktik pertanian yang berkelanjutan.</string>
+    <string name="alert_invalid_email">Email Invalid</string>
+    <string name="passMustbe">The password must not be less than 8 characters</string>
+    <string name="emailValid">Email Must Be Filled In</string>
+    <string name="passwordValid">Password Must Be Filled In</string>
+    <string name="loginSuccess">Login Successful</string>
+    <string name="next">Next</string>
 </resources>

@@ -20,3 +20,19 @@
         android:label="Camera Fragment"
         tools:layout="@layout/fragment_camera" />
 </navigation>
+    app:startDestination="@id/profileFragment">
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.capstone.padicare.ui.profile.ProfileFragment"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_aboutAppFragment"
+            app:destination="@id/aboutAppFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/aboutAppFragment"
+        android:name="com.capstone.padicare.ui.profile.AboutAppFragment"
+        tools:layout="@layout/fragment_about_app" />
+</navigation>
