@@ -42,13 +42,16 @@ class MainActivity : AppCompatActivity() {
 
     fun navigateToCamera() {
         fragment = CameraFragment()
-        replaceFragment(fragment, false)
+        replaceFragment(fragment, false, true) // addToBackStack = true
     }
 
-    private fun replaceFragment(fragment: Fragment, showBottomNav: Boolean) {
+    private fun replaceFragment(fragment: Fragment, showBottomNav: Boolean, addToBackStack: Boolean = false) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fl_container, fragment)
+        if (addToBackStack) {
+            fragmentTransaction.addToBackStack(null)
+        }
         fragmentTransaction.commit()
 
         // Set visibility of BottomNavigationView
@@ -83,5 +86,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
+        } else {
+            super.onBackPressed()
+        }
     }
 }

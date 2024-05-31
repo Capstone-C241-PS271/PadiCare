@@ -1,11 +1,9 @@
 package com.capstone.padicare.data.repo
 
-import androidx.lifecycle.LiveData
 import com.capstone.padicare.data.pref.UserModel
 import com.capstone.padicare.data.pref.UserPreference
 import com.capstone.padicare.data.response.ErrorResponse
 import com.capstone.padicare.data.response.LoginResponse
-import com.capstone.padicare.data.response.RegisterResponse
 import com.capstone.padicare.data.retrofit.ApiService
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
@@ -23,6 +21,7 @@ class UserRepository private constructor(
         return userPref.getSession()
     }
 
+    /**
     suspend fun register(name: String, email: String, password: String): ResultState<RegisterResponse> {
         ResultState.Loading
         return try {
@@ -39,6 +38,7 @@ class UserRepository private constructor(
             ResultState.Error(errorMessage.toString())
         }
     }
+    **/
 
     suspend fun login(email: String, password: String): LoginResponse {
         return apiService.login(email, password)
