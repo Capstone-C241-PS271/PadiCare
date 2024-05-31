@@ -4,5 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="hijau1">#419875</color>
     <color name="hijau2">#9FEDD5</color>
+    <color name="hijau3">#47B98F</color>
     <color name="link_color">#0000EE</color>
+    <color name="gray">#D9D9D9</color>
+    <color name="background">#FAFAFA</color>
 </resources>
