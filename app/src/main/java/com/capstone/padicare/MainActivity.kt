@@ -1,8 +1,12 @@
 package com.capstone.padicare
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import com.capstone.padicare.databinding.ActivityMainBinding
 import com.capstone.padicare.ui.history.HistoryFragment
@@ -41,5 +45,31 @@ class MainActivity : AppCompatActivity() {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fl_container, fragment)
         fragmentTransaction.commit()
+    }
+
+    fun showUpButton(){
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    fun hideUpButton(){
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
+
+    fun clickUpButton(){
+        addMenuProvider(object : MenuProvider{
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                return
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId){
+                    android.R.id.home -> {
+                        supportFragmentManager.popBackStack()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        })
     }
 }
