@@ -29,4 +29,7 @@
     <string name="next">Next</string>
 
     <string name="hi" translatable="false">Hi, %1$s</string>
+    <string name="login_failed_title">Login Gagal</string>
+    <string name="login_failed_message">Email atau Password yang anda masukkan salah</string>
+    <string name="retry">Coba Lagi</string>
 </resources>

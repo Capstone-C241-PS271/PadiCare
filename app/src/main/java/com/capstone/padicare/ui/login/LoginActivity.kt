@@ -1,18 +1,14 @@
 package com.capstone.padicare.ui.login
 
+import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.capstone.padicare.MainActivity
 import com.capstone.padicare.R
 import com.capstone.padicare.databinding.ActivityLoginBinding
@@ -24,28 +20,17 @@ class LoginActivity : AppCompatActivity() {
     private val loginViewModel by viewModels<LoginViewModel> {
         ViewModelFactory.getInstance(this)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupView()
+        // Periksa status login
+        checkLoginStatus()
+
         setupAction()
-
-    }
-
-    private fun setupView() {
-        @Suppress("DEPRECATION")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.insetsController?.hide(WindowInsets.Type.statusBars())
-        } else {
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-            )
-        }
-        supportActionBar?.hide()
     }
 
     private fun setupAction() {
@@ -75,6 +60,47 @@ class LoginActivity : AppCompatActivity() {
         observeErrorState()
     }
 
+    private fun saveLoginStatus(isLoggedIn: Boolean) {
+        val sharedPreferences = getSharedPreferences("StoryAppPreferences", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("isLoggedIn", isLoggedIn)
+        editor.apply()
+    }
+
+    private fun checkLoginStatus() {
+        val sharedPreferences = getSharedPreferences("StoryAppPreferences", Context.MODE_PRIVATE)
+        val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
+        if (isLoggedIn) {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            finish()
+        }
+    }
+
+    private fun observeLoginResponse() {
+        loginViewModel.loginResponse.observe(this) { response ->
+            if (response.error) {
+                showLoading(false)
+                AlertDialog.Builder(this).apply {
+                    setTitle(getString(R.string.login_failed_title))
+                    setMessage(getString(R.string.login_failed_message))
+                    setPositiveButton(getString(R.string.retry)) { _, _ -> }
+                    create()
+                    show()
+                }
+            } else {
+                showLoading(false)
+                saveLoginStatus(true) // Simpan status login saat berhasil login
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+                startActivity(intent)
+                finish()
+            }
+        }
+    }
+
     private fun observeErrorState() {
         loginViewModel.isError.observe(this) { errorMessage ->
             if (!errorMessage.isNullOrEmpty()) {
@@ -99,29 +125,6 @@ class LoginActivity : AppCompatActivity() {
     private fun observeLoadingState() {
         loginViewModel.isLoading.observe(this){ isLoading ->
             showLoading(isLoading)
-        }
-    }
-
-    private fun observeLoginResponse() {
-        loginViewModel.loginResponse.observe(this){ response ->
-            if (response.error){
-                Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
-            } else {
-                AlertDialog.Builder(this).apply {
-                    setTitle("Yosh!")
-                    setMessage(getString(R.string.loginSuccess))
-                    setPositiveButton(getString(R.string.next)) { _, _ ->
-                        val intent = Intent(context, MainActivity::class.java)
-                        intent.flags =
-                            Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                        startActivity(intent)
-                        finish()
-                        showLoading(false)
-                    }
-                    create()
-                    show()
-                }
-            }
         }
     }
 }
