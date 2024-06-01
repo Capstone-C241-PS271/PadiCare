@@ -87,7 +87,7 @@
         app:startIconDrawable="@drawable/ic_baseline_lock_24">
 
         <com.capstone.padicare.customView.PasswordEditText
-            android:id="@+id/ed_register_password"
+            android:id="@+id/ed_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"

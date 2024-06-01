@@ -7,50 +7,23 @@ import androidx.lifecycle.viewModelScope
 import com.capstone.padicare.data.pref.UserModel
 import com.capstone.padicare.data.repo.UserRepository
 import com.capstone.padicare.data.response.LoginResponse
+import com.capstone.padicare.helper.ResultState
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
 class LoginViewModel(private val userRepo: UserRepository): ViewModel() {
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _isError = MutableLiveData<String>()
-    val isError: LiveData<String> get() = _isError
+    private val _loginResponse = MutableLiveData<ResultState<LoginResponse>>()
+    val loginResponse: LiveData<ResultState<LoginResponse>> get() = _loginResponse
 
-    private val _loginResponse = MutableLiveData<LoginResponse>()
-    val loginResponse: LiveData<LoginResponse> = _loginResponse
+    fun login(email: String, password: String) {
+        _loginResponse.value = ResultState.Loading
 
-    fun login(email: String, password: String){
-        _isLoading.value = true
         viewModelScope.launch {
-            try {
-                val response = userRepo.login(email,password)
-                setAuth( UserModel(
-                    response.loginResult.userId,
-                    response.loginResult.name,
-                    email,
-                    response.loginResult.token,
-                    true
-                ))
-                _isLoading.postValue(false)
-                _loginResponse.postValue(response)
-            } catch (e: HttpException){
-                _isLoading.postValue(false)
-                val jsonInString = e.response()?.errorBody()?.string()
-                val errorBody = Gson().fromJson(jsonInString, LoginResponse::class.java)
-                val errorMessage = errorBody.message
-                _isError.postValue(errorMessage)
-            } catch (e: Exception){
-                _isLoading.postValue(false)
-                _isError.postValue(e.message ?: "An unexpected error occurred")
-            }
+            val result = userRepo.login(email, password)
+            _loginResponse.value = result
         }
-    }
 
-    private fun setAuth(userModel: UserModel) {
-        viewModelScope.launch {
-            userRepo.setAuth(userModel)
-        }
     }
 }

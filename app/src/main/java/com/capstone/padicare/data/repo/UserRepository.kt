@@ -4,7 +4,9 @@ import com.capstone.padicare.data.pref.UserModel
 import com.capstone.padicare.data.pref.UserPreference
 import com.capstone.padicare.data.response.ErrorResponse
 import com.capstone.padicare.data.response.LoginResponse
+import com.capstone.padicare.data.retrofit.ApiConfig
 import com.capstone.padicare.data.retrofit.ApiService
+import com.capstone.padicare.helper.ResultState
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
@@ -44,8 +46,36 @@ class UserRepository private constructor(
     }
     **/
 
-    suspend fun login(email: String, password: String): LoginResponse {
-        return apiService.login(email, password)
+    suspend fun login(email: String, password: String): ResultState<LoginResponse> {
+
+        ResultState.Loading
+        try {
+            val response = apiService.login(email, password)
+            if (response.error == true) {
+                return ResultState.Error(response.message ?: "Unknown Error")
+            } else {
+                val loginResult = response.loginResult
+                if (loginResult != null) {
+                    val sesi = UserModel(
+                        userId = loginResult.userId ?: "",
+                        name = loginResult.name ?: "",
+                        email = email,
+                        token = loginResult.token ?: "",
+                        isLogin = true
+                    )
+                    saveSession(sesi)
+                    ApiConfig.token = loginResult.token ?: ""
+                    return ResultState.Success(response)
+                } else {
+                    return ResultState.Error("Login is null")
+                }
+            }
+        } catch (e: HttpException) {
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
+            val errorMessage = errorBody.message
+            return ResultState.Error(errorMessage ?: "Unknown Error")
+        }
     }
 
     suspend fun setAuth(user: UserModel) = userPref.saveSession(user)

@@ -12,9 +12,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.padicare.MainActivity
 import com.capstone.padicare.R
+import com.capstone.padicare.data.response.LoginResponse
 import com.capstone.padicare.databinding.ActivityLoginBinding
+import com.capstone.padicare.helper.ResultState
 import com.capstone.padicare.model.ViewModelFactory
 import com.capstone.padicare.ui.register.RegisterActivity
+import com.google.android.material.textfield.TextInputLayout
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -37,28 +40,71 @@ class LoginActivity : AppCompatActivity() {
     private fun setupAction() {
         binding.SignInButton.setOnClickListener {
             val email = binding.edLoginUsername.text.toString()
-            val password = binding.edRegisterPassword.text.toString()
-            when {
-                email.isEmpty() -> {
-                    binding.edLoginUsername.error = getString(R.string.emailValid)
-                }
+            val password = binding.edLoginPassword.text.toString()
 
-                password.isEmpty() -> {
-                    binding.edRegisterPassword.error = getString(R.string.passwordValid)
-                }
-                else -> {
-                    loginViewModel.login(email, password)
-                    showLoading(true)
+            // Validasi input
+            if (email.isEmpty() && password.isEmpty()) {
+                setError(binding.usernameEditTextLayout, getString(R.string.error_empty_email))
+                setError(binding.passwordEditTextLayout, getString(R.string.error_empty_password))
+                return@setOnClickListener
+            }
+
+            if (email.isEmpty()) {
+                setError(binding.usernameEditTextLayout, getString(R.string.error_empty_email))
+                return@setOnClickListener
+            } else {
+                clearError(binding.usernameEditTextLayout)
+            }
+
+            if (!isValidEmail(email)) {
+                setError(binding.usernameEditTextLayout, getString(R.string.error_invalid_email))
+                return@setOnClickListener
+            } else {
+                clearError(binding.usernameEditTextLayout)
+            }
+
+            if (password.isEmpty()) {
+                setError(binding.passwordEditTextLayout, getString(R.string.error_empty_password))
+                return@setOnClickListener
+            } else {
+                clearError(binding.passwordEditTextLayout)
+            }
+
+            if (password.length < 8) {
+                setError(binding.passwordEditTextLayout, getString(R.string.error_short_password))
+                return@setOnClickListener
+            } else {
+                clearError(binding.passwordEditTextLayout)
+            }
+
+            loginViewModel.login(email, password)
+            loginViewModel.loginResponse.observe(this) { result ->
+                when (result) {
+                    is ResultState.Loading -> {
+                        showLoading(true)
+                    }
+                    is ResultState.Success -> {
+                        showLoading(false)
+                        val response: LoginResponse = result.data
+                        saveLoginStatus(true)  // Save login status
+                        val intent = Intent(this, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
+                        finish()
+                    }
+                    is ResultState.Error -> {
+                        showLoading(false)
+                        AlertDialog.Builder(this).apply {
+                            setTitle(getString(R.string.login_failed_title))
+                            setMessage(getString(R.string.login_failed_message))
+                            setPositiveButton(getString(R.string.retry)) { _, _ -> }
+                            create()
+                            show()
+                        }
+                    }
                 }
             }
         }
-        binding.btnRegister.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-        }
-        observeLoginResponse()
-        observeLoadingState()
-        observeErrorState()
     }
 
     private fun saveLoginStatus(isLoggedIn: Boolean) {
@@ -79,38 +125,25 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeLoginResponse() {
-        loginViewModel.loginResponse.observe(this) { response ->
-            showLoading(false)
-            if (response.error) {
-                Log.d("LoginActivity", "Login failed, showing AlertDialog")
-                AlertDialog.Builder(this).apply {
-                    setTitle(getString(R.string.login_failed_title))
-                    setMessage(getString(R.string.login_failed_message))
-                    setPositiveButton(getString(R.string.retry)) { _, _ -> }
-                    create()
-                    show()
-                }
-            } else {
-                saveLoginStatus(true) // Simpan status login saat berhasil login
-                val intent = Intent(this, MainActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                }
-                startActivity(intent)
-                finish()
-            }
+    private fun setError(textInputLayout: TextInputLayout, error: String) {
+        textInputLayout.error = error
+        if (textInputLayout == binding.passwordEditTextLayout) {
+            textInputLayout.errorIconDrawable = null // Menyembunyikan icon error pada password
         }
     }
 
-
-    private fun observeErrorState() {
-        loginViewModel.isError.observe(this) { errorMessage ->
-            if (!errorMessage.isNullOrEmpty()) {
-                showError(errorMessage)
-                showLoading(false)
-            }
-        }
+    private fun clearError(textInputLayout: TextInputLayout) {
+        textInputLayout.error = null
+        textInputLayout.errorIconDrawable = null // Hapus icon kesalahan
     }
+
+    private fun isValidEmail(email: String): Boolean {
+        val atIndex = email.indexOf('@')
+        val dotIndex = email.lastIndexOf('.')
+
+        return atIndex > 0 && dotIndex > atIndex + 1 && dotIndex < email.length - 1
+    }
+
 
     private fun showLoading(isLoading: Boolean) {
         if (isLoading){
@@ -120,13 +153,4 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun showError(errorMessage: String) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun observeLoadingState() {
-        loginViewModel.isLoading.observe(this){ isLoading ->
-            showLoading(isLoading)
-        }
-    }
 }
