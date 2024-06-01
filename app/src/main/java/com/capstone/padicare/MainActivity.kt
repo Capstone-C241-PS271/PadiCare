@@ -38,11 +38,21 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
+        // Monitor changes in the back stack
+        supportFragmentManager.addOnBackStackChangedListener {
+            val fragment = supportFragmentManager.findFragmentById(R.id.fl_container)
+            if (fragment is CameraFragment) {
+                binding.bottomNav.visibility = android.view.View.GONE
+            } else {
+                binding.bottomNav.visibility = android.view.View.VISIBLE
+            }
+        }
     }
 
     fun navigateToCamera() {
         fragment = CameraFragment()
-        replaceFragment(fragment, false, true) // addToBackStack = true
+        replaceFragment(fragment, false, true)
     }
 
     private fun replaceFragment(fragment: Fragment, showBottomNav: Boolean, addToBackStack: Boolean = false) {

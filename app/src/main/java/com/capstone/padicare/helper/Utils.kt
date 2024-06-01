@@ -1,4 +1,4 @@
-package com.capstone.padicare.ui.utils
+package com.capstone.padicare.helper
 
 import android.content.Context
 import android.net.Uri
