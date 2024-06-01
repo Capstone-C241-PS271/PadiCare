@@ -21,6 +21,10 @@ class UserRepository private constructor(
         return userPref.getSession()
     }
 
+    suspend fun logout(){
+        userPref.logout()
+    }
+
     /**
     suspend fun register(name: String, email: String, password: String): ResultState<RegisterResponse> {
         ResultState.Loading
@@ -43,9 +47,6 @@ class UserRepository private constructor(
     suspend fun login(email: String, password: String): LoginResponse {
         return apiService.login(email, password)
     }
-
-
-    suspend fun logout() { userPref.logout() }
 
     suspend fun setAuth(user: UserModel) = userPref.saveSession(user)
 

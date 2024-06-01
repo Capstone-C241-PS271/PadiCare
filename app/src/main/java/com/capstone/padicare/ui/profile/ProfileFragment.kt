@@ -1,5 +1,6 @@
 package com.capstone.padicare.ui.profile
 
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,19 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.replace
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.capstone.padicare.R
-import com.capstone.padicare.model.MainViewModel
 import com.capstone.padicare.model.ViewModelFactory
-import com.capstone.padicare.ui.login.LoginActivity
-
+import com.capstone.padicare.ui.started.StartedActivity
 
 class ProfileFragment : Fragment(), View.OnClickListener {
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: ProfileViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,11 +26,10 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this, ViewModelFactory.getInstance(requireActivity())).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this, ViewModelFactory.getInstance(requireActivity())).get(ProfileViewModel::class.java)
 
         val btnContact: Button = view.findViewById(R.id.btn_contact)
         btnContact.setOnClickListener(this)
@@ -44,9 +39,9 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
         val btnLogout: Button = view.findViewById(R.id.buttonLogout)
         btnLogout.setOnClickListener(this)
-
     }
-    override fun onClick(v: View?){
+
+    override fun onClick(v: View?) {
         val fragmentManager = parentFragmentManager
         when (v?.id) {
             R.id.btn_contact -> {
@@ -67,11 +62,25 @@ class ProfileFragment : Fragment(), View.OnClickListener {
             }
             R.id.buttonLogout -> {
                 viewModel.logout()
-                val intent = Intent(requireActivity(), LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                startActivity(intent)
-                requireActivity().finish()
+                clearLoginStatus() // Hapus status login
+                navigateToStartedActivity()
             }
         }
+    }
+
+    private fun clearLoginStatus() {
+        // Bersihkan cache status login
+        val sharedPreferences = requireContext().getSharedPreferences("StoryAppPreferences", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.remove("isLoggedIn")
+        editor.apply()
+    }
+
+
+    private fun navigateToStartedActivity() {
+        val intent = Intent(requireActivity(), StartedActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        requireActivity().finish()
     }
 }

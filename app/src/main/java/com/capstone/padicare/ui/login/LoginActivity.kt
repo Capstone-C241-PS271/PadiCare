@@ -3,6 +3,7 @@ package com.capstone.padicare.ui.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -80,8 +81,9 @@ class LoginActivity : AppCompatActivity() {
 
     private fun observeLoginResponse() {
         loginViewModel.loginResponse.observe(this) { response ->
+            showLoading(false)
             if (response.error) {
-                showLoading(false)
+                Log.d("LoginActivity", "Login failed, showing AlertDialog")
                 AlertDialog.Builder(this).apply {
                     setTitle(getString(R.string.login_failed_title))
                     setMessage(getString(R.string.login_failed_message))
@@ -90,7 +92,6 @@ class LoginActivity : AppCompatActivity() {
                     show()
                 }
             } else {
-                showLoading(false)
                 saveLoginStatus(true) // Simpan status login saat berhasil login
                 val intent = Intent(this, MainActivity::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -100,6 +101,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun observeErrorState() {
         loginViewModel.isError.observe(this) { errorMessage ->
