@@ -27,4 +27,6 @@
     <string name="passwordValid">Password Must Be Filled In</string>
     <string name="loginSuccess">Login Successful</string>
     <string name="next">Next</string>
+
+    <string name="hi" translatable="false">Hi, %1$s</string>
 </resources>

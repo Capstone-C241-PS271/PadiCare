@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.capstone.padicare.data.repo.UserRepository
 import com.capstone.padicare.data.retrofit.Injection
+import com.capstone.padicare.ui.home.HomeViewModel
 import com.capstone.padicare.ui.login.LoginViewModel
 
 class ViewModelFactory (private val repo: UserRepository): ViewModelProvider.NewInstanceFactory() {
@@ -16,6 +17,9 @@ class ViewModelFactory (private val repo: UserRepository): ViewModelProvider.New
             }
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 LoginViewModel(repo) as i
+            }
+            modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
+                HomeViewModel(repo) as i
             }
             /**
             modelClass.isAssignableFrom(RegisterViewModel::class.java) -> {
