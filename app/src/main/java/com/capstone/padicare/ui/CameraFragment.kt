@@ -14,6 +14,7 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.capstone.padicare.databinding.FragmentCameraBinding
 import java.io.File
 import java.text.SimpleDateFormat
