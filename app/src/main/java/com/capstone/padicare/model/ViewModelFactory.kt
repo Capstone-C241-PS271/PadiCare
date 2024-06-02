@@ -7,6 +7,7 @@ import com.capstone.padicare.data.repo.UserRepository
 import com.capstone.padicare.data.retrofit.Injection
 import com.capstone.padicare.ui.home.HomeViewModel
 import com.capstone.padicare.ui.login.LoginViewModel
+import com.capstone.padicare.ui.news.NewsViewModel
 import com.capstone.padicare.ui.profile.ProfileViewModel
 
 class ViewModelFactory (private val repo: UserRepository): ViewModelProvider.NewInstanceFactory() {
@@ -24,6 +25,9 @@ class ViewModelFactory (private val repo: UserRepository): ViewModelProvider.New
             }
             modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
                 ProfileViewModel(repo) as i
+            }
+            modelClass.isAssignableFrom(NewsViewModel::class.java) -> {
+                NewsViewModel(repo) as i
             }
             /**
             modelClass.isAssignableFrom(RegisterViewModel::class.java) -> {

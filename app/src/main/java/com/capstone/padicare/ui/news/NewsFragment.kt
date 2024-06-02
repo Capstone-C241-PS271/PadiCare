@@ -6,12 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import com.capstone.padicare.R
+import com.capstone.padicare.databinding.FragmentNewsBinding
+import com.capstone.padicare.model.ViewModelFactory
 
 class NewsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var _binding: FragmentNewsBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: NewsViewModel by viewModels { ViewModelFactory.getInstance(requireContext())}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,13 +24,23 @@ class NewsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_news, container, false)
+        _binding = FragmentNewsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
+
+        viewModel.getData().observe(viewLifecycleOwner) { user ->
+            binding.tvHi.text = getString(R.string.hi, user.name)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

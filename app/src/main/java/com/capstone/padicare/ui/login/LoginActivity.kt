@@ -43,67 +43,87 @@ class LoginActivity : AppCompatActivity() {
             val password = binding.edLoginPassword.text.toString()
 
             // Validasi input
-            if (email.isEmpty() && password.isEmpty()) {
-                setError(binding.usernameEditTextLayout, getString(R.string.error_empty_email))
-                setError(binding.passwordEditTextLayout, getString(R.string.error_empty_password))
-                return@setOnClickListener
-            }
+            if (!validateInput(email, password)) return@setOnClickListener
 
+            loginViewModel.login(email, password)
+            observeLoginResponse()
+        }
+    }
+
+    private fun validateInput(email: String, password: String): Boolean {
+        var isValid = true
+
+        if (email.isEmpty() && password.isEmpty()) {
+            setError(binding.usernameEditTextLayout, getString(R.string.error_empty_email))
+            setError(binding.passwordEditTextLayout, getString(R.string.error_empty_password))
+            isValid = false
+        } else {
             if (email.isEmpty()) {
                 setError(binding.usernameEditTextLayout, getString(R.string.error_empty_email))
-                return@setOnClickListener
+                isValid = false
             } else {
                 clearError(binding.usernameEditTextLayout)
             }
 
             if (!isValidEmail(email)) {
                 setError(binding.usernameEditTextLayout, getString(R.string.error_invalid_email))
-                return@setOnClickListener
+                isValid = false
             } else {
                 clearError(binding.usernameEditTextLayout)
             }
 
             if (password.isEmpty()) {
                 setError(binding.passwordEditTextLayout, getString(R.string.error_empty_password))
-                return@setOnClickListener
+                isValid = false
             } else {
                 clearError(binding.passwordEditTextLayout)
             }
 
             if (password.length < 8) {
                 setError(binding.passwordEditTextLayout, getString(R.string.error_short_password))
-                return@setOnClickListener
+                isValid = false
             } else {
                 clearError(binding.passwordEditTextLayout)
             }
+        }
 
-            loginViewModel.login(email, password)
-            loginViewModel.loginResponse.observe(this) { result ->
-                when (result) {
-                    is ResultState.Loading -> {
-                        showLoading(true)
-                    }
-                    is ResultState.Success -> {
-                        showLoading(false)
-                        val response: LoginResponse = result.data
-                        saveLoginStatus(true)  // Save login status
-                        val intent = Intent(this, MainActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                        startActivity(intent)
-                        finish()
-                    }
-                    is ResultState.Error -> {
-                        showLoading(false)
-                        AlertDialog.Builder(this).apply {
-                            setTitle(getString(R.string.login_failed_title))
-                            setMessage(getString(R.string.login_failed_message))
-                            setPositiveButton(getString(R.string.retry)) { _, _ -> }
-                            create()
-                            show()
-                        }
-                    }
+        return isValid
+    }
+
+    private fun observeLoginResponse() {
+        loginViewModel.loginResponse.observe(this) { result ->
+            when (result) {
+                is ResultState.Loading -> {
+                    showLoading(true)
+                }
+                is ResultState.Success -> {
+                    showLoading(false)
+                    handleLoginSuccess(result.data)
+                }
+                is ResultState.Error -> {
+                    showLoading(false)
+                    showLoginErrorDialog()
                 }
             }
+        }
+    }
+
+    private fun handleLoginSuccess(response: LoginResponse) {
+        saveLoginStatus(true)
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        startActivity(intent)
+        finish()
+    }
+
+    private fun showLoginErrorDialog() {
+        AlertDialog.Builder(this).apply {
+            setTitle(getString(R.string.login_failed_title))
+            setMessage(getString(R.string.login_failed_message))
+            setPositiveButton(getString(R.string.retry)) { _, _ -> }
+            create()
+            show()
         }
     }
 
