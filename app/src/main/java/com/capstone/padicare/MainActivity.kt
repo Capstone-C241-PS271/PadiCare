@@ -1,5 +1,8 @@
 package com.capstone.padicare
 
+import NewsFragment
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -12,7 +15,6 @@ import com.capstone.padicare.databinding.ActivityMainBinding
 import com.capstone.padicare.ui.CameraFragment
 import com.capstone.padicare.ui.history.HistoryFragment
 import com.capstone.padicare.ui.home.HomeFragment
-import com.capstone.padicare.ui.news.NewsFragment
 import com.capstone.padicare.ui.profile.ProfileFragment
 import com.capstone.padicare.ui.scan.ScanFragment
 
@@ -103,6 +105,15 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.popBackStack()
         } else {
             super.onBackPressed()
+        }
+    }
+
+    fun openUrl(url: String) {
+//        val url = view.getTag(R.id.news_link) as? String
+        url.let {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            startActivity(intent)
         }
     }
 }
