@@ -1,6 +1,5 @@
 package com.capstone.padicare
 
-import NewsFragment
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -15,6 +14,7 @@ import com.capstone.padicare.databinding.ActivityMainBinding
 import com.capstone.padicare.ui.CameraFragment
 import com.capstone.padicare.ui.history.HistoryFragment
 import com.capstone.padicare.ui.home.HomeFragment
+import com.capstone.padicare.ui.news.NewsFragment
 import com.capstone.padicare.ui.profile.ProfileFragment
 import com.capstone.padicare.ui.scan.ScanFragment
 

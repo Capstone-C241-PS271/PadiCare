@@ -1,14 +1,15 @@
 package com.capstone.padicare.data.retrofit
 
+import com.capstone.padicare.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import com.capstone.padicare.BuildConfig
 import java.util.concurrent.TimeUnit
 
 object ApiConfig {
+    val API_KEY: String = BuildConfig.API_KEY
     var token = ""
     fun getApiService(token: String): ApiService{
         this.token = token
