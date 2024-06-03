@@ -30,16 +30,14 @@
             android:id="@+id/tv_TitleNews"
             android:layout_width="220dp"
             android:layout_height="71dp"
-            android:layout_marginStart="112dp"
+            android:layout_marginStart="28dp"
             android:layout_marginTop="8dp"
             android:paddingEnd="16dp"
             android:text="@string/newsTitle"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/img_News"
-            app:layout_constraintStart_toStartOf="@+id/img_News"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -47,7 +45,6 @@
             android:layout_width="144dp"
             android:layout_height="17dp"
             android:layout_marginTop="3dp"
-            android:onClick="openNewsUrl"
             android:text="@string/linkNews"
             android:textColor="@color/link_color"
             android:textSize="12sp"

@@ -1,5 +1,7 @@
 package com.capstone.padicare.ui.news
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -56,4 +58,6 @@ class NewsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }
