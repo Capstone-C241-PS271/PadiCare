@@ -15,6 +15,9 @@ import com.capstone.padicare.R
 import com.capstone.padicare.databinding.FragmentScanBinding
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 
 class ScanFragment : Fragment() {
 
@@ -36,6 +39,32 @@ class ScanFragment : Fragment() {
         }
     }
 
+    private lateinit var requestPermissionsLauncher: ActivityResultLauncher<Array<String>>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Register ActivityResult handler
+        requestPermissionsLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            permissions.entries.forEach {
+                val permissionName = it.key
+                val isGranted = it.value
+                if (isGranted) {
+                    // Handle the granted permission
+                    if (permissionName == Manifest.permission.READ_EXTERNAL_STORAGE ||
+                        permissionName == Manifest.permission.READ_MEDIA_IMAGES) {
+                        pickImageFromGallery()
+                    }
+                } else {
+                    // Handle the denied permission
+                    Toast.makeText(requireContext(), "Permission denied: $permissionName", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,14 +80,48 @@ class ScanFragment : Fragment() {
         }
 
         binding.galleryButton.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                pickImageFromGallery()
-            } else {
-                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_CODE_STORAGE_PERMISSION)
-            }
+            handleGalleryButtonClicked()
         }
 
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
+    }
+
+    private fun handleGalleryButtonClicked() {
+        when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> {
+                // API level 34 and above
+                requestPermissionsIfNeeded(
+                    arrayOf(
+                        Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
+                    )
+                )
+            }
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
+                // API level 33 (TIRAMISU)
+                requestPermissionsIfNeeded(
+                    arrayOf(
+                        Manifest.permission.READ_MEDIA_IMAGES,
+                        Manifest.permission.READ_MEDIA_VIDEO
+                    )
+                )
+            }
+            else -> {
+                // API level below 33
+                requestPermissionsIfNeeded(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE))
+            }
+        }
+    }
+
+    private fun requestPermissionsIfNeeded(permissions: Array<String>) {
+        val permissionsToRequest = permissions.filter { permission ->
+            ContextCompat.checkSelfPermission(requireContext(), permission) != PackageManager.PERMISSION_GRANTED
+        }.toTypedArray()
+
+        if (permissionsToRequest.isNotEmpty()) {
+            requestPermissionsLauncher.launch(permissionsToRequest)
+        } else {
+            pickImageFromGallery()
+        }
     }
 
     private fun pickImageFromGallery() {
