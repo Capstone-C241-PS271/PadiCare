@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import com.capstone.padicare.MainActivity
 import com.capstone.padicare.R
 import com.capstone.padicare.data.response.LoginResponse
@@ -18,6 +19,7 @@ import com.capstone.padicare.helper.ResultState
 import com.capstone.padicare.model.ViewModelFactory
 import com.capstone.padicare.ui.register.RegisterActivity
 import com.google.android.material.textfield.TextInputLayout
+import androidx.core.util.Pair
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -35,6 +37,20 @@ class LoginActivity : AppCompatActivity() {
         checkLoginStatus()
 
         setupAction()
+
+        binding.btnRegister.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            val optionCompat: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this@LoginActivity,
+                Pair(binding.titleTextView, "title1"),
+                Pair(binding.welcome, "title2"),
+                Pair(binding.welcome2, "title3"),
+                Pair(binding.usernameEditTextLayout, "username"),
+                Pair(binding.passwordEditTextLayout, "password"),
+                Pair(binding.SignInButton, "signin")
+            )
+            startActivity(intent, optionCompat.toBundle())
+        }
     }
 
     private fun setupAction() {
