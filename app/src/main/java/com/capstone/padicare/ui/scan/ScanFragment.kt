@@ -1,29 +1,29 @@
 package com.capstone.padicare.ui.scan
 
+import android.Manifest
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
-import com.capstone.padicare.MainActivity
 import com.capstone.padicare.R
 import com.capstone.padicare.databinding.FragmentScanBinding
-import android.Manifest
-import android.content.pm.PackageManager
-import android.os.Build
-import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
+import com.capstone.padicare.ui.CameraActivity
 
 class ScanFragment : Fragment() {
 
     private var _binding: FragmentScanBinding? = null
     private val binding get() = _binding!!
-
 
     private val pickImageGallery = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
@@ -35,7 +35,7 @@ class ScanFragment : Fragment() {
         if (isGranted) {
             pickImageFromGallery()
         } else {
-            // Permission denied, handle accordingly
+            Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -51,19 +51,16 @@ class ScanFragment : Fragment() {
                 val permissionName = it.key
                 val isGranted = it.value
                 if (isGranted) {
-                    // Handle the granted permission
                     if (permissionName == Manifest.permission.READ_EXTERNAL_STORAGE ||
                         permissionName == Manifest.permission.READ_MEDIA_IMAGES) {
                         pickImageFromGallery()
                     }
                 } else {
-                    // Handle the denied permission
                     Toast.makeText(requireContext(), "Permission denied: $permissionName", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,7 +73,7 @@ class ScanFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.openCameraButton.setOnClickListener {
-            (activity as MainActivity).navigateToCamera()
+            openCameraActivity()
         }
 
         binding.galleryButton.setOnClickListener {
@@ -86,18 +83,24 @@ class ScanFragment : Fragment() {
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadCapturedImage()
+    }
+
+    private fun openCameraActivity() {
+        val intent = Intent(requireContext(), CameraActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun handleGalleryButtonClicked() {
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> {
-                // API level 34 and above
                 requestPermissionsIfNeeded(
-                    arrayOf(
-                        Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
-                    )
+                    arrayOf(Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED)
                 )
             }
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
-                // API level 33 (TIRAMISU)
                 requestPermissionsIfNeeded(
                     arrayOf(
                         Manifest.permission.READ_MEDIA_IMAGES,
@@ -106,7 +109,6 @@ class ScanFragment : Fragment() {
                 )
             }
             else -> {
-                // API level below 33
                 requestPermissionsIfNeeded(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE))
             }
         }
@@ -128,33 +130,24 @@ class ScanFragment : Fragment() {
         pickImageGallery.launch("image/*")
     }
 
-    private fun navigateToCamera(view: View) {
-        binding.openCameraButton.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_scanFragment_to_cameraFragment)
+    private fun loadCapturedImage() {
+        val sharedPreferences = requireContext().getSharedPreferences("com.capstone.padicare.PREFERENCE_FILE_KEY", Context.MODE_PRIVATE)
+        val imageUriString = sharedPreferences.getString("captured_image_uri", null)
+
+        imageUriString?.let {
+            val imageUri = Uri.parse(it)
+            binding.previewImageView.setImageURI(imageUri)
+
+            // Hapus Uri setelah ditampilkan
+            with(sharedPreferences.edit()) {
+                remove("captured_image_uri")
+                apply()
+            }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    @Suppress("DEPRECATION")
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE_STORAGE_PERMISSION && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            pickImageFromGallery()
-        } else {
-            // Handle permission denial if necessary
-        }
-    }
-
-    companion object {
-        private const val REQUEST_CODE_STORAGE_PERMISSION = 1
     }
 }

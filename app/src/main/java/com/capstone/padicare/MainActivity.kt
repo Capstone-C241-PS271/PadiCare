@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import com.capstone.padicare.databinding.ActivityMainBinding
-import com.capstone.padicare.ui.CameraFragment
 import com.capstone.padicare.ui.history.HistoryFragment
 import com.capstone.padicare.ui.home.HomeFragment
 import com.capstone.padicare.ui.news.NewsFragment
