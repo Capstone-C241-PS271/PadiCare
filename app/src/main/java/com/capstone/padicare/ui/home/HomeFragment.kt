@@ -47,7 +47,7 @@ class HomeFragment : Fragment() {
                     is ResultState.Success -> {
                         val user = result.data
                         Log.i("HomeFragment", "User Info: ${user.toString()}")
-                        //binding.tvHi.text = getString(R.string.hi, user.name)
+                        binding.tvHi.text = getString(R.string.hi, user.data.name)
                     }
                     is ResultState.Error -> {
                         if (result.error.contains("token is invalid/expired")) {

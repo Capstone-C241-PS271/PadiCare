@@ -1,7 +1,6 @@
 package com.capstone.padicare.data.retrofit
 
 import com.capstone.padicare.data.pref.UserModel
-import com.capstone.padicare.data.repo.UserRepository
 import com.capstone.padicare.data.response.BaseResponse
 import com.capstone.padicare.data.response.LoginRequest
 import com.capstone.padicare.data.response.LoginResponse
@@ -9,8 +8,6 @@ import com.capstone.padicare.data.response.RegisterRequest
 import com.capstone.padicare.data.response.RegisterResponse
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 import retrofit2.Response
 import retrofit2.http.GET
@@ -35,6 +32,6 @@ interface ApiService {
     suspend fun loginUser(@Body loginRequest: LoginRequest): Response<LoginResponse>
 
     @GET("/api/users/me")
-    suspend fun getUserInfo(@Header("Authorization") token: String): Call<BaseResponse<UserModel>>
+    suspend fun getUserInfo(@Header("Authorization") token: String): Response<BaseResponse<UserModel>>
 
 }

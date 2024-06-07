@@ -74,7 +74,7 @@ class UserRepository private constructor(
 
     suspend fun getUserInfo(token: String): ResultState<BaseResponse<UserModel>> {
         return try {
-            val response = apiService.getUserInfo("Bearer $token").execute()
+            val response = apiService.getUserInfo("Bearer $token")
             if (response.isSuccessful) {
                 val userModel = response.body()
                 if (userModel != null) {
