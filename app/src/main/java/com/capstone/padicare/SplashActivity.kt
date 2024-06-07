@@ -22,7 +22,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkLoginStatus() {
-        val sharedPreferences = getSharedPreferences("StoryAppPreferences", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("PadiCarePreferences", Context.MODE_PRIVATE)
         val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
         if (isLoggedIn) {
             goToMainActivity()

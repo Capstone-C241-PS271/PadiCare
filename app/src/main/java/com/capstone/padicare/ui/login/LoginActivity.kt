@@ -126,6 +126,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun handleLoginSuccess(response: LoginResponse) {
         saveLoginStatus(true)
+        saveToken(response.token) // Simpan token setelah login berhasil
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         }
@@ -144,14 +145,21 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun saveLoginStatus(isLoggedIn: Boolean) {
-        val sharedPreferences = getSharedPreferences("StoryAppPreferences", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("PadiCarePreferences", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putBoolean("isLoggedIn", isLoggedIn)
         editor.apply()
     }
 
+    private fun saveToken(token: String) {
+        val sharedPreferences = getSharedPreferences("PadiCarePreferences", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("token", token)
+        editor.apply()
+    }
+
     private fun checkLoginStatus() {
-        val sharedPreferences = getSharedPreferences("StoryAppPreferences", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("PadiCarePreferences", Context.MODE_PRIVATE)
         val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
         if (isLoggedIn) {
             val intent = Intent(this, MainActivity::class.java)
@@ -180,7 +188,6 @@ class LoginActivity : AppCompatActivity() {
         return atIndex > 0 && dotIndex > atIndex + 1 && dotIndex < email.length - 1
     }
 
-
     private fun showLoading(isLoading: Boolean) {
         if (isLoading){
             binding.progressBar.visibility = View.VISIBLE
@@ -188,5 +195,4 @@ class LoginActivity : AppCompatActivity() {
             binding.progressBar.visibility = View.INVISIBLE
         }
     }
-
 }

@@ -77,7 +77,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
     private fun clearLoginStatus() {
         // Bersihkan cache status login
-        val sharedPreferences = requireContext().getSharedPreferences("StoryAppPreferences", MODE_PRIVATE)
+        val sharedPreferences = requireContext().getSharedPreferences("PadiCarePreferences", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.remove("isLoggedIn")
         editor.apply()
