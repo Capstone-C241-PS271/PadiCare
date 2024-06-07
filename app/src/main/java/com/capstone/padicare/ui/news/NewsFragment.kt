@@ -1,17 +1,23 @@
 package com.capstone.padicare.ui.news
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.padicare.R
 import com.capstone.padicare.databinding.FragmentNewsBinding
+import com.capstone.padicare.helper.ResultState
 import com.capstone.padicare.model.ViewModelFactory
 
 class NewsFragment : Fragment() {
@@ -19,6 +25,7 @@ class NewsFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: NewsViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
     private lateinit var newsAdapter: NewsAdapter
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,8 +56,34 @@ class NewsFragment : Fragment() {
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
-        viewModel.getData().observe(viewLifecycleOwner) { user ->
-            binding.tvHi.text = getString(R.string.hi, user.name)
+        sharedPreferences = requireActivity().getSharedPreferences("PadiCarePreferences", Context.MODE_PRIVATE)
+        val token = sharedPreferences.getString("token", "") ?: ""
+
+        if (token.isNotEmpty()) {
+            viewModel.fetchUserInfo(token).observe(viewLifecycleOwner, Observer { result ->
+
+                when (result) {
+                    is ResultState.Success -> {
+                        val user = result.data
+                        Log.i("HomeFragment", "User Info: ${user.toString()}")
+                        binding.tvHi.text = getString(R.string.hi, user.data.name)
+                    }
+                    is ResultState.Error -> {
+                        if (result.error.contains("token is invalid/expired")) {
+                            Toast.makeText(requireContext(), "Session expired. Please login again.", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Log.i("HomeFragment", "Error: ${result.error}")
+                            Toast.makeText(requireContext(), "Failed to get user info: ${result.error}", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    is ResultState.Loading -> {
+                        // Show loading indicator if needed
+                        // binding.loadingIndicator.visibility = View.VISIBLE // Example
+                    }
+                }
+            })
+        } else {
+            Toast.makeText(requireContext(), "Token is missing", Toast.LENGTH_SHORT).show()
         }
     }
 
