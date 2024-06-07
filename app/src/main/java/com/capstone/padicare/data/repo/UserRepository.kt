@@ -3,6 +3,7 @@ package com.capstone.padicare.data.repo
 import com.capstone.padicare.data.pref.UserModel
 import com.capstone.padicare.data.pref.UserPreference
 import com.capstone.padicare.data.response.ErrorResponse
+import com.capstone.padicare.data.response.LoginRequest
 import com.capstone.padicare.data.response.LoginResponse
 import com.capstone.padicare.data.retrofit.ApiConfig
 import com.capstone.padicare.data.retrofit.ApiService
@@ -10,6 +11,8 @@ import com.capstone.padicare.helper.ResultState
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
+import retrofit2.Response
+
 
 class UserRepository private constructor(
     private val userPref: UserPreference,
@@ -46,35 +49,45 @@ class UserRepository private constructor(
     }
     **/
 
-    suspend fun login(email: String, password: String): ResultState<LoginResponse> {
-
-        ResultState.Loading
+    suspend fun login(username: String, password: String): ResultState<LoginResponse> {
         try {
-            val response = apiService.login(email, password)
-            if (response.error == true) {
-                return ResultState.Error(response.message ?: "Unknown Error")
-            } else {
-                val loginResult = response.loginResult
-                if (loginResult != null) {
-                    val sesi = UserModel(
-                        userId = loginResult.userId ?: "",
-                        name = loginResult.name ?: "",
-                        email = email,
-                        token = loginResult.token ?: "",
-                        isLogin = true
-                    )
-                    saveSession(sesi)
-                    ApiConfig.token = loginResult.token ?: ""
-                    return ResultState.Success(response)
+            val response = apiService.loginUser(LoginRequest(username, password))
+            if (response.isSuccessful) {
+                val loginResponse = response.body()
+                return if (loginResponse != null) {
+                    ResultState.Success(loginResponse)
                 } else {
-                    return ResultState.Error("Login is null")
+                    ResultState.Error("Response body is null")
                 }
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Unknown Error"
+                return ResultState.Error(errorMessage)
             }
         } catch (e: HttpException) {
-            val jsonInString = e.response()?.errorBody()?.string()
-            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
-            val errorMessage = errorBody.message
-            return ResultState.Error(errorMessage ?: "Unknown Error")
+            val errorMessage = e.message ?: "Unknown Error"
+            return ResultState.Error(errorMessage)
+        }
+    }
+
+    suspend fun getUserInfo(token: String): ResultState<UserModel> {
+        return try {
+            val response = apiService.getUserInfo("Bearer $token").execute()
+            if (response.isSuccessful) {
+                val userModel = response.body()
+                if (userModel != null) {
+                    ResultState.Success(userModel)
+                } else {
+                    ResultState.Error("Response body is null")
+                }
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Unknown Error"
+                ResultState.Error(errorMessage)
+            }
+        } catch (e: HttpException) {
+            val errorMessage = e.message ?: "Unknown Error"
+            ResultState.Error(errorMessage)
+        } catch (e: Exception) {
+            ResultState.Error(e.message ?: "Unknown Error")
         }
     }
 
