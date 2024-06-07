@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,16 +42,19 @@ class HomeFragment : Fragment() {
 
         if (token.isNotEmpty()) {
             viewModel.fetchUserInfo(token).observe(viewLifecycleOwner, Observer { result ->
+
                 when (result) {
                     is ResultState.Success -> {
                         val user = result.data
-                        binding.tvHi.text = getString(R.string.hi, user.name)
+                        Log.i("HomeFragment", "User Info: ${user.toString()}")
+                        //binding.tvHi.text = getString(R.string.hi, user.name)
                     }
                     is ResultState.Error -> {
                         if (result.error.contains("token is invalid/expired")) {
                             Toast.makeText(requireContext(), "Session expired. Please login again.", Toast.LENGTH_SHORT).show()
                             redirectToLogin()
                         } else {
+                            Log.i("HomeFragment", "Error: ${result.error}")
                             Toast.makeText(requireContext(), "Failed to get user info: ${result.error}", Toast.LENGTH_SHORT).show()
                         }
                     }

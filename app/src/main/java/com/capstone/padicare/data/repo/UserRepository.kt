@@ -2,6 +2,7 @@ package com.capstone.padicare.data.repo
 
 import com.capstone.padicare.data.pref.UserModel
 import com.capstone.padicare.data.pref.UserPreference
+import com.capstone.padicare.data.response.BaseResponse
 import com.capstone.padicare.data.response.ErrorResponse
 import com.capstone.padicare.data.response.LoginRequest
 import com.capstone.padicare.data.response.LoginResponse
@@ -71,7 +72,7 @@ class UserRepository private constructor(
         }
     }
 
-    suspend fun getUserInfo(token: String): ResultState<UserModel> {
+    suspend fun getUserInfo(token: String): ResultState<BaseResponse<UserModel>> {
         return try {
             val response = apiService.getUserInfo("Bearer $token").execute()
             if (response.isSuccessful) {

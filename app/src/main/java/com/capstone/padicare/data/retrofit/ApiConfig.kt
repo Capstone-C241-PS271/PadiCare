@@ -17,7 +17,6 @@ object ApiConfig {
         val authInterceptor = Interceptor {
             val request = it.request()
             val header = request.newBuilder()
-                .addHeader("Authorization", "Bearer ${this.token}")
                 .build()
             it.proceed(header)
         }

@@ -2,6 +2,7 @@ package com.capstone.padicare.data.retrofit
 
 import com.capstone.padicare.data.pref.UserModel
 import com.capstone.padicare.data.repo.UserRepository
+import com.capstone.padicare.data.response.BaseResponse
 import com.capstone.padicare.data.response.LoginRequest
 import com.capstone.padicare.data.response.LoginResponse
 import com.capstone.padicare.data.response.RegisterRequest
@@ -34,6 +35,6 @@ interface ApiService {
     suspend fun loginUser(@Body loginRequest: LoginRequest): Response<LoginResponse>
 
     @GET("/api/users/me")
-    suspend fun getUserInfo(@Header("Authorization") token: String): Call<UserModel>
+    suspend fun getUserInfo(@Header("Authorization") token: String): Call<BaseResponse<UserModel>>
 
 }

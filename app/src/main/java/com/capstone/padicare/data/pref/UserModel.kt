@@ -18,4 +18,8 @@ data class UserModel(
 
     @field:SerializedName("email")
     val email: String? = null
-)
+) {
+    override fun toString(): String {
+        return  "{id: $id, name: $name, email: $email, updateAt: $updatedAt, createdAt: $createdAt}"
+    }
+}
