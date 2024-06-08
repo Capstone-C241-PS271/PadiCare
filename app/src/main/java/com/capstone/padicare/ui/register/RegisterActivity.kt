@@ -1,28 +1,20 @@
 package com.capstone.padicare.ui.register
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
-import androidx.lifecycle.Observer
-import com.capstone.padicare.data.repo.UserRepository
-import com.capstone.padicare.data.retrofit.ApiConfig
-import com.capstone.padicare.data.pref.UserPreference
+import com.capstone.padicare.R
 import com.capstone.padicare.databinding.ActivityRegisterBinding
-import com.capstone.padicare.helper.ResultState
-import com.capstone.padicare.model.ViewModelFactory
 import com.capstone.padicare.ui.login.LoginActivity
-import androidx.core.app.ActivityOptionsCompat
 import com.capstone.padicare.helper.ResultState
 import com.capstone.padicare.model.ViewModelFactory
+import com.google.android.material.textfield.TextInputLayout
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
@@ -40,8 +32,23 @@ class RegisterActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
+        binding.btnLogin.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            val optionsCompat: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this@RegisterActivity,
+                Pair(binding.titleTextView, "title1"),
+                Pair(binding.welcome, "title2"),
+                Pair(binding.welcome2, "title3"),
+                Pair(binding.emailEditTextLayout, "email"),
+                Pair(binding.usernameEditTextLayout, "username"),
+                Pair(binding.passwordEditTextLayout, "password"),
+                Pair(binding.SignUpButton, "signup"),
+                Pair(binding.tvLogin, "account1"),
+                Pair(binding.btnLogin, "account2")
+            )
+            startActivity(intent, optionsCompat.toBundle())
+        }
 
-        setupView()
         setupAction()
     }
 
@@ -50,6 +57,8 @@ class RegisterActivity : AppCompatActivity() {
             val name = binding.edLoginUsername.text?.toString() ?: ""
             val email = binding.edLoginEmail.text?.toString() ?: ""
             val password = binding.edRegisterPassword.text?.toString() ?: ""
+
+            if (!validateInput(name, email, password)) return@setOnClickListener
 
             viewModel.register(name, email, password)
             viewModel.registrationResult.observe(this){ result ->
@@ -76,7 +85,7 @@ class RegisterActivity : AppCompatActivity() {
                         AlertDialog.Builder(this).apply {
                             setTitle("Sorry..")
                             setMessage(result.error)
-                            setPositiveButton("Try Again"){_,_ ->
+                            setPositiveButton("Try Again"){_,_, ->
                             }
                             create()
                             show()
@@ -88,18 +97,66 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupView() {
-        @Suppress("DEPRECATION")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
-            window.insetsController?.hide(WindowInsets.Type.statusBars())
-        } else {
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-            )
+    private fun setError(textInputLayout: TextInputLayout, error: String) {
+        textInputLayout.error = error
+        if (textInputLayout == binding.passwordEditTextLayout) {
+            textInputLayout.errorIconDrawable = null // Menyembunyikan icon error pada password
         }
-        supportActionBar?.hide()
     }
+
+    private fun clearError(textInputLayout: TextInputLayout) {
+        textInputLayout.error = null
+        textInputLayout.errorIconDrawable = null // Hapus icon kesalahan
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        val atIndex = email.indexOf('@')
+        val dotIndex = email.lastIndexOf('.')
+
+        return atIndex > 0 && dotIndex > atIndex + 1 && dotIndex < email.length - 1
+    }
+
+    private fun validateInput(email: String, password: String, password1: String): Boolean {
+        var isValid = true
+
+        if (email.isEmpty() && password.isEmpty()) {
+            setError(binding.emailEditTextLayout, getString(R.string.error_empty_email))
+            setError(binding.usernameEditTextLayout, getString(R.string.error_empty_username))
+            setError(binding.passwordEditTextLayout, getString(R.string.error_empty_password))
+            isValid = false
+        } else {
+            if (email.isEmpty()) {
+                setError(binding.emailEditTextLayout, getString(R.string.error_empty_email))
+                isValid = false
+            } else {
+                clearError(binding.emailEditTextLayout)
+            }
+
+            if (!isValidEmail(email)) {
+                setError(binding.emailEditTextLayout, getString(R.string.error_invalid_email))
+                isValid = false
+            } else {
+                clearError(binding.emailEditTextLayout)
+            }
+
+            if (password.isEmpty()) {
+                setError(binding.passwordEditTextLayout, getString(R.string.error_empty_password))
+                isValid = false
+            } else {
+                clearError(binding.passwordEditTextLayout)
+            }
+
+            if (password.length < 8) {
+                setError(binding.passwordEditTextLayout, getString(R.string.error_short_password))
+                isValid = false
+            } else {
+                clearError(binding.passwordEditTextLayout)
+            }
+        }
+
+        return isValid
+    }
+
 
     private fun showLoading(isLoading: Boolean){
         if (isLoading){
@@ -107,23 +164,5 @@ class RegisterActivity : AppCompatActivity() {
         } else {
             binding.progressBar.visibility = View.GONE
         }
-    }
-
-    private fun setupObservers() {
-        registerViewModel.registerResult.observe(this, Observer { resultState ->
-            when (resultState) {
-                is ResultState.Loading -> {
-                    binding.progressBar.visibility = android.view.View.VISIBLE
-                }
-                is ResultState.Success -> {
-                    binding.progressBar.visibility = android.view.View.GONE
-                    Toast.makeText(this, "Registration Successful", Toast.LENGTH_SHORT).show()
-                }
-                is ResultState.Error -> {
-                    binding.progressBar.visibility = android.view.View.GONE
-                    Toast.makeText(this, resultState.error, Toast.LENGTH_SHORT).show()
-                }
-            }
-        })
     }
 }
