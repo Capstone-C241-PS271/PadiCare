@@ -9,6 +9,7 @@ import com.capstone.padicare.ui.home.HomeViewModel
 import com.capstone.padicare.ui.login.LoginViewModel
 import com.capstone.padicare.ui.news.NewsViewModel
 import com.capstone.padicare.ui.profile.ProfileViewModel
+import com.capstone.padicare.ui.register.RegisterViewModel
 
 class ViewModelFactory (private val repo: UserRepository): ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
@@ -29,11 +30,10 @@ class ViewModelFactory (private val repo: UserRepository): ViewModelProvider.New
             modelClass.isAssignableFrom(NewsViewModel::class.java) -> {
                 NewsViewModel(repo) as i
             }
-            /**
             modelClass.isAssignableFrom(RegisterViewModel::class.java) -> {
                 RegisterViewModel(repo) as i
             }
-            **/
+
 
             else -> throw IllegalArgumentException("Unknown ViewModel class:"+modelClass.name)
         }

@@ -23,8 +23,8 @@
     <string name="gallery">GALERI</string>
     <string name="alert_invalid_email">Email Invalid</string>
     <string name="passMustbe">The password must not be less than 8 characters</string>
-    <string name="emailValid">Email Must Be Filled In</string>
-    <string name="passwordValid">Password Must Be Filled In</string>
+    <string name="emailValid">Isi Email Terlebih Dahulu</string>
+    <string name="passwordValid">Isi Password Terlebih Dahulu</string>
     <string name="loginSuccess">Login Successful</string>
     <string name="next">Next</string>
 
