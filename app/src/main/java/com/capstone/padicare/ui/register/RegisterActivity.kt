@@ -10,8 +10,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
+import androidx.lifecycle.Observer
+import com.capstone.padicare.data.repo.UserRepository
+import com.capstone.padicare.data.retrofit.ApiConfig
+import com.capstone.padicare.data.pref.UserPreference
 import com.capstone.padicare.databinding.ActivityRegisterBinding
+import com.capstone.padicare.helper.ResultState
+import com.capstone.padicare.model.ViewModelFactory
 import com.capstone.padicare.ui.login.LoginActivity
 import androidx.core.app.ActivityOptionsCompat
 import com.capstone.padicare.helper.ResultState
@@ -100,5 +107,23 @@ class RegisterActivity : AppCompatActivity() {
         } else {
             binding.progressBar.visibility = View.GONE
         }
+    }
+
+    private fun setupObservers() {
+        registerViewModel.registerResult.observe(this, Observer { resultState ->
+            when (resultState) {
+                is ResultState.Loading -> {
+                    binding.progressBar.visibility = android.view.View.VISIBLE
+                }
+                is ResultState.Success -> {
+                    binding.progressBar.visibility = android.view.View.GONE
+                    Toast.makeText(this, "Registration Successful", Toast.LENGTH_SHORT).show()
+                }
+                is ResultState.Error -> {
+                    binding.progressBar.visibility = android.view.View.GONE
+                    Toast.makeText(this, resultState.error, Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
 }

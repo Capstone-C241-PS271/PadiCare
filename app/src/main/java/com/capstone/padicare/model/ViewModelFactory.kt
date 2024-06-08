@@ -34,7 +34,6 @@ class ViewModelFactory (private val repo: UserRepository): ViewModelProvider.New
                 RegisterViewModel(repo) as i
             }
 
-
             else -> throw IllegalArgumentException("Unknown ViewModel class:"+modelClass.name)
         }
     }
