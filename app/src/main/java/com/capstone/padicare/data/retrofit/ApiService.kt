@@ -26,7 +26,7 @@ interface ApiService {
     **/
 
     @POST("/api/users/register")
-    fun registerUser(@Body registerRequest: RegisterRequest): Call<RegisterResponse>
+    suspend fun registerUser(@Body registerRequest: RegisterRequest): Response<RegisterResponse>
 
     @POST("/api/users/login")
     suspend fun loginUser(@Body loginRequest: LoginRequest): Response<LoginResponse>

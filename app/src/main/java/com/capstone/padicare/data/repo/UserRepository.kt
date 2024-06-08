@@ -8,17 +8,7 @@ import com.capstone.padicare.data.response.LoginRequest
 import com.capstone.padicare.data.response.LoginResponse
 import com.capstone.padicare.data.response.RegisterRequest
 import com.capstone.padicare.data.response.RegisterResponse
-import com.capstone.padicare.data.retrofit.ApiService
-import com.capstone.padicare.helper.ResultState
-import com.google.gson.Gson
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.suspendCancellableCoroutine
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.HttpException
-import retrofit2.Response
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
+import com.capstone.padicare.data.retrofit.ApiConfig
 
 class UserRepository private constructor(
     private val userPref: UserPreference,
@@ -109,6 +99,26 @@ class UserRepository private constructor(
             ResultState.Error(errorMessage)
         } catch (e: Exception) {
             ResultState.Error(e.message ?: "Unknown Error")
+        }
+    }
+
+     suspend fun register(name: String, email: String, password: String): ResultState<RegisterResponse> {
+        try {
+            val response = apiService.registerUser(RegisterRequest(name, email, password))
+            if (response.isSuccessful) {
+                val registerResponse = response.body()
+                return if (registerResponse != null) {
+                    ResultState.Success(registerResponse)
+                } else {
+                    ResultState.Error("Response body is null")
+                }
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Unknown Error"
+                return ResultState.Error(errorMessage)
+            }
+        } catch (e: HttpException) {
+            val errorMessage = e.message ?: "Unknown Error"
+            return ResultState.Error(errorMessage)
         }
     }
 

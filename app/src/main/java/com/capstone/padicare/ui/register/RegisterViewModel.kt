@@ -9,17 +9,19 @@ import com.capstone.padicare.data.response.RegisterResponse
 import com.capstone.padicare.helper.ResultState
 import kotlinx.coroutines.launch
 
-class RegisterViewModel(private val userRepository: UserRepository) : ViewModel() {
+class RegisterViewModel (private val userRepo: UserRepository): ViewModel() {
+    private val _registrationResult = MutableLiveData<ResultState<RegisterResponse>>()
+    val registrationResult: LiveData<ResultState<RegisterResponse>> get() = _registrationResult
 
-    private val _registerResult = MutableLiveData<ResultState<RegisterResponse>>()
-    val registerResult: LiveData<ResultState<RegisterResponse>> = _registerResult
-
-    fun registerUser(name: String, email: String, password: String) {
+    fun register(name: String, email: String, password: String) {
         viewModelScope.launch {
-            _registerResult.value = ResultState.Loading
-
-            val result = userRepository.register(name, email, password)
-            _registerResult.value = result
+            try {
+                _registrationResult.value = ResultState.Loading
+                val result = userRepo.register(name, email, password)
+                _registrationResult.postValue(result)
+            } catch (e: Exception) {
+                _registrationResult.postValue(ResultState.Error("${e.message}"))
+            }
         }
     }
 }

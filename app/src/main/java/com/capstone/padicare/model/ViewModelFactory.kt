@@ -30,7 +30,6 @@ class ViewModelFactory (private val repo: UserRepository): ViewModelProvider.New
             modelClass.isAssignableFrom(NewsViewModel::class.java) -> {
                 NewsViewModel(repo) as i
             }
-
             modelClass.isAssignableFrom(RegisterViewModel::class.java) -> {
                 RegisterViewModel(repo) as i
             }

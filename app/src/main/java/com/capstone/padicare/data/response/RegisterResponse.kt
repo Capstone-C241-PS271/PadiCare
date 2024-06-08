@@ -4,7 +4,9 @@ data class RegisterResponse(
     val id: String,
     val email: String,
     val name: String,
-    val token: String
+    val token: String,
+    val error: Boolean? = null,
+    val message: String? = null
 )
 
 data class RegisterRequest(
