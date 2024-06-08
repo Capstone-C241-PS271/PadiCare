@@ -3,10 +3,15 @@ package com.capstone.padicare.ui.scan
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,18 +21,32 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.capstone.padicare.R
 import com.capstone.padicare.databinding.FragmentScanBinding
 import com.capstone.padicare.ui.CameraActivity
+import com.capstone.padicare.data.response.PredictRequest
+import com.capstone.padicare.data.retrofit.ApiConfig
+import com.capstone.padicare.helper.ResultState
+import com.capstone.padicare.model.ViewModelFactory
+import com.capstone.padicare.ui.news.NewsViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
 
 class ScanFragment : Fragment() {
 
     private var _binding: FragmentScanBinding? = null
     private val binding get() = _binding!!
-
+    private lateinit var sharedPreferences: SharedPreferences
+    private val viewModel: NewsViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
     private val pickImageGallery = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
             binding.previewImageView.setImageURI(uri)
+            binding.analyzeButton.visibility = View.VISIBLE // Tampilkan tombol upload setelah gambar dipilih
         }
     }
 
@@ -78,6 +97,13 @@ class ScanFragment : Fragment() {
 
         binding.galleryButton.setOnClickListener {
             handleGalleryButtonClicked()
+        }
+
+        binding.analyzeButton.setOnClickListener {
+            val bitmap = (binding.previewImageView.drawable as BitmapDrawable).bitmap
+            CoroutineScope(Dispatchers.Main).launch {
+                uploadImage(bitmap)
+            }
         }
 
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
@@ -143,6 +169,37 @@ class ScanFragment : Fragment() {
                 remove("captured_image_uri")
                 apply()
             }
+        }
+    }
+
+    private fun convertBitmapToBase64(bitmap: Bitmap): String {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        val byteArray = byteArrayOutputStream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    }
+
+    private suspend fun uploadImage(bitmap: Bitmap) {
+        val base64Image = convertBitmapToBase64(bitmap)
+        sharedPreferences = requireContext().getSharedPreferences("com.capstone.padicare.PREFERENCE_FILE_KEY", Context.MODE_PRIVATE)
+        val token = sharedPreferences.getString("token", "") ?: ""
+
+        val predictRequest = PredictRequest(image = base64Image)
+
+        try {
+            val response = withContext(Dispatchers.IO) {
+                ApiConfig.getpredict(token, predictRequest)
+            }
+
+            if (response.isSuccessful) {
+                val predictResponse = response.body()
+                Toast.makeText(requireContext(), "Upload successful", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Upload failed", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(requireContext(), "An error occurred", Toast.LENGTH_SHORT).show()
         }
     }
 

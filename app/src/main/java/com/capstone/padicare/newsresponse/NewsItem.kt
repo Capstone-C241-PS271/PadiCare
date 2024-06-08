@@ -1,4 +1,4 @@
-package com.capstone.padicare.response
+package com.capstone.padicare.newsresponse
 
 data class NewsItem(
     val title: String,

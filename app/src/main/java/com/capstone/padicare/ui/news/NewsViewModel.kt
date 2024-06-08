@@ -10,8 +10,7 @@ import com.capstone.padicare.data.repo.NewsRepository
 import com.capstone.padicare.data.repo.UserRepository
 import com.capstone.padicare.data.response.BaseResponse
 import com.capstone.padicare.helper.ResultState
-import com.capstone.padicare.response.NewsItem
-import com.capstone.padicare.response.NewsResponse
+import com.capstone.padicare.newsresponse.NewsItem
 import kotlinx.coroutines.launch
 
 class NewsViewModel(private val userRepository: UserRepository) : ViewModel() {

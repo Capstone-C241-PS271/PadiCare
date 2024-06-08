@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.capstone.padicare.MainActivity
 import com.capstone.padicare.R
-import com.capstone.padicare.response.NewsItem
+import com.capstone.padicare.newsresponse.NewsItem
 
 class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.ViewHolder>(DiffCallback()){
 

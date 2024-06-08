@@ -2,8 +2,8 @@ package com.capstone.padicare.data.repo
 
 import com.capstone.padicare.api.ApiClient
 import com.capstone.padicare.data.retrofit.ApiConfig
-import com.capstone.padicare.response.Article
-import com.capstone.padicare.response.NewsResponse
+import com.capstone.padicare.newsresponse.Article
+import com.capstone.padicare.newsresponse.NewsResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

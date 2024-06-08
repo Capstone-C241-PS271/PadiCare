@@ -53,7 +53,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun setupAction() {
-        binding.SignUpButton.setOnClickListener{
+        binding.SignUpButton.setOnClickListener {
             val name = binding.edLoginUsername.text?.toString() ?: ""
             val email = binding.edLoginEmail.text?.toString() ?: ""
             val password = binding.edRegisterPassword.text?.toString() ?: ""
@@ -61,23 +61,25 @@ class RegisterActivity : AppCompatActivity() {
             if (!validateInput(name, email, password)) return@setOnClickListener
 
             viewModel.register(name, email, password)
-            viewModel.registrationResult.observe(this){ result ->
+            viewModel.registrationResult.observe(this) { result ->
                 showLoading(result is ResultState.Loading)
 
-                when (result){
+                when (result) {
                     is ResultState.Success -> {
                         showLoading(false)
                         result.data.let { data ->
-                            data.message?.let { message -> AlertDialog.Builder(this).apply {
-                                setTitle("Selamat!")
-                                setMessage("Akun dengan $email sudah jadi nih. Silahkan, Login.")
-                                setPositiveButton("Next"){_,_ ->
-                                    finish()
-                                    startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+                            data.message?.let { message ->
+                                AlertDialog.Builder(this).apply {
+                                    setTitle("Selamat!")
+                                    setMessage("Akun dengan $email sudah jadi nih. Silahkan, Login.")
+                                    setPositiveButton("Next") { _, _ ->
+                                        finish()
+                                        startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+                                    }
+                                    create()
+                                    show()
                                 }
-                                create()
-                                show()
-                            } }
+                            }
                         }
                     }
                     is ResultState.Error -> {
@@ -85,7 +87,7 @@ class RegisterActivity : AppCompatActivity() {
                         AlertDialog.Builder(this).apply {
                             setTitle("Sorry..")
                             setMessage(result.error)
-                            setPositiveButton("Try Again"){_,_, ->
+                            setPositiveButton("Try Again") { _, _, ->
                             }
                             create()
                             show()
@@ -100,13 +102,13 @@ class RegisterActivity : AppCompatActivity() {
     private fun setError(textInputLayout: TextInputLayout, error: String) {
         textInputLayout.error = error
         if (textInputLayout == binding.passwordEditTextLayout) {
-            textInputLayout.errorIconDrawable = null // Menyembunyikan icon error pada password
+            textInputLayout.errorIconDrawable = null
         }
     }
 
     private fun clearError(textInputLayout: TextInputLayout) {
         textInputLayout.error = null
-        textInputLayout.errorIconDrawable = null // Hapus icon kesalahan
+        textInputLayout.errorIconDrawable = null
     }
 
     private fun isValidEmail(email: String): Boolean {
@@ -116,15 +118,22 @@ class RegisterActivity : AppCompatActivity() {
         return atIndex > 0 && dotIndex > atIndex + 1 && dotIndex < email.length - 1
     }
 
-    private fun validateInput(email: String, password: String, password1: String): Boolean {
+    private fun validateInput(name: String, email: String, password: String): Boolean {
         var isValid = true
 
-        if (email.isEmpty() && password.isEmpty()) {
+        if (name.isEmpty() && email.isEmpty() && password.isEmpty()) {
             setError(binding.emailEditTextLayout, getString(R.string.error_empty_email))
             setError(binding.usernameEditTextLayout, getString(R.string.error_empty_username))
             setError(binding.passwordEditTextLayout, getString(R.string.error_empty_password))
             isValid = false
         } else {
+            if (name.isEmpty()) {
+                setError(binding.usernameEditTextLayout, getString(R.string.error_empty_username))
+                isValid = false
+            } else {
+                clearError(binding.usernameEditTextLayout)
+            }
+
             if (email.isEmpty()) {
                 setError(binding.emailEditTextLayout, getString(R.string.error_empty_email))
                 isValid = false
@@ -157,9 +166,8 @@ class RegisterActivity : AppCompatActivity() {
         return isValid
     }
 
-
-    private fun showLoading(isLoading: Boolean){
-        if (isLoading){
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
             binding.progressBar.visibility = View.VISIBLE
         } else {
             binding.progressBar.visibility = View.GONE

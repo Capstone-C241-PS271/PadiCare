@@ -4,9 +4,10 @@ import com.capstone.padicare.data.pref.UserModel
 import com.capstone.padicare.data.response.BaseResponse
 import com.capstone.padicare.data.response.LoginRequest
 import com.capstone.padicare.data.response.LoginResponse
+import com.capstone.padicare.data.response.PredictRequest
+import com.capstone.padicare.data.response.PredictResponse
 import com.capstone.padicare.data.response.RegisterRequest
 import com.capstone.padicare.data.response.RegisterResponse
-import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.Response
@@ -33,5 +34,8 @@ interface ApiService {
 
     @GET("/api/users/me")
     suspend fun getUserInfo(@Header("Authorization") token: String): Response<BaseResponse<UserModel>>
+
+    @POST("/api/predictions")
+    suspend fun predict(@Header("Authorization") token: String, @Body predictRequest: PredictRequest): Response<PredictResponse>
 
 }

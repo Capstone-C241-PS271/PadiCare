@@ -1,6 +1,6 @@
 package com.capstone.padicare.database
 
-import com.capstone.padicare.response.NewsResponse
+import com.capstone.padicare.newsresponse.NewsResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
