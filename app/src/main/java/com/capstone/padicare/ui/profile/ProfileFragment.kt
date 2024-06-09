@@ -16,7 +16,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.capstone.padicare.R
-import com.capstone.padicare.data.retrofit.ApiConfig.token
 import com.capstone.padicare.databinding.FragmentProfileBinding
 import com.capstone.padicare.helper.ResultState
 import com.capstone.padicare.model.ViewModelFactory

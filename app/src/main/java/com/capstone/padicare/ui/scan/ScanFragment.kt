@@ -181,14 +181,15 @@ class ScanFragment : Fragment() {
 
     private suspend fun uploadImage(bitmap: Bitmap) {
         val base64Image = convertBitmapToBase64(bitmap)
-        sharedPreferences = requireContext().getSharedPreferences("com.capstone.padicare.PREFERENCE_FILE_KEY", Context.MODE_PRIVATE)
-        val token = sharedPreferences.getString("token", "") ?: ""
+        sharedPreferences = requireContext().getSharedPreferences("PadiCarePreferences", Context.MODE_PRIVATE)
+        var token = sharedPreferences.getString("token", "") ?: ""
+        token = "Bearer $token"
 
         val predictRequest = PredictRequest(image = base64Image)
 
         try {
             val response = withContext(Dispatchers.IO) {
-                ApiConfig.getpredict(token, predictRequest)
+                ApiConfig.getApiService().predict(token, predictRequest)
             }
 
             if (response.isSuccessful) {

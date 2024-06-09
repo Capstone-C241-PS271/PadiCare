@@ -10,9 +10,7 @@ import java.util.concurrent.TimeUnit
 
 object ApiConfig {
     val API_KEY: String = BuildConfig.API_KEY
-    var token = ""
-    fun getApiService(token: String): ApiService{
-        this.token = token
+    fun getApiService(): ApiService{
         val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         val authInterceptor = Interceptor {
             val request = it.request()
