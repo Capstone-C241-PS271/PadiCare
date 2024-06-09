@@ -1,5 +1,6 @@
 package com.capstone.padicare.ui.history
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.capstone.padicare.R
 import com.capstone.padicare.data.response.Data
+import com.capstone.padicare.ui.ResultActivity
 
 class HistoryAdapter(private val historyList: List<Data>) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
@@ -33,6 +35,16 @@ class HistoryAdapter(private val historyList: List<Data>) : RecyclerView.Adapter
 
         holder.resultTextView.text = "Hasil: ${history.result}"
         holder.createdAtTextView.text = history.createdAt
+
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, ResultActivity::class.java).apply {
+                putExtra("imageUri", history.image)
+                putExtra("predictionResult", history.result)
+                putExtra("suggestion", history.suggestion)
+            }
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
