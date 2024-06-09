@@ -15,7 +15,7 @@
         android:padding="16dp">
 
         <ImageView
-            android:id="@+id/img_News"
+            android:id="@+id/iv_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -32,13 +32,13 @@
             android:layout_marginTop="16dp"
             android:text="Hasil :"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/img_News"
+            app:layout_constraintEnd_toEndOf="@+id/iv_history"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/img_News"
-            app:layout_constraintTop_toBottomOf="@+id/img_News"
+            app:layout_constraintStart_toStartOf="@+id/iv_history"
+            app:layout_constraintTop_toBottomOf="@+id/iv_history"
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
@@ -48,8 +48,7 @@
             android:layout_marginTop="10dp"
             android:text="09/06/2024"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

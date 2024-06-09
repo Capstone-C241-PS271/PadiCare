@@ -2,12 +2,14 @@ package com.capstone.padicare.data.retrofit
 
 import com.capstone.padicare.data.pref.UserModel
 import com.capstone.padicare.data.response.BaseResponse
+import com.capstone.padicare.data.response.Data
 import com.capstone.padicare.data.response.LoginRequest
 import com.capstone.padicare.data.response.LoginResponse
 import com.capstone.padicare.data.response.PredictRequest
 import com.capstone.padicare.data.response.PredictResponse
 import com.capstone.padicare.data.response.RegisterRequest
 import com.capstone.padicare.data.response.RegisterResponse
+import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.Response
@@ -16,15 +18,6 @@ import retrofit2.http.Header
 
 
 interface ApiService {
-    /**
-    @FormUrlEncoded
-    @POST("register")
-    suspend fun register(
-        @Field("name") name: String,
-        @Field("email") email: String,
-        @Field("password") password: String
-    ): RegisterResponse
-    **/
 
     @POST("/api/users/register")
     suspend fun registerUser(@Body registerRequest: RegisterRequest): Response<RegisterResponse>
@@ -37,5 +30,8 @@ interface ApiService {
 
     @POST("/api/predictions/")
     suspend fun predict(@Header("Authorization") token: String, @Body predictRequest: PredictRequest): Response<PredictResponse>
+
+    @GET("/api/predictions/")
+    suspend fun getHistory(@Header("Authorization") token: String): Response<BaseResponse<List<Data>>>
 
 }
