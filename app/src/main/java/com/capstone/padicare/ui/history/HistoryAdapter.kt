@@ -28,7 +28,6 @@ class HistoryAdapter(private val historyList: List<Data>) : RecyclerView.Adapter
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         val history = historyList[position]
 
-        // Load image using a library like Glide or Picasso
         Glide.with(holder.imageView.context)
             .load(history.image)
             .into(holder.imageView)
@@ -50,4 +49,5 @@ class HistoryAdapter(private val historyList: List<Data>) : RecyclerView.Adapter
     override fun getItemCount(): Int {
         return historyList.size
     }
+
 }

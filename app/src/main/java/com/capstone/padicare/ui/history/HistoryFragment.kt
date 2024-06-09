@@ -60,7 +60,7 @@ class HistoryFragment : Fragment() {
             }
             if (response.isSuccessful) {
                 val historyResponse = response.body()
-                val historyList = historyResponse?.data ?: emptyList()
+                val historyList = historyResponse?.data?.reversed() ?: emptyList()
                 historyAdapter = HistoryAdapter(historyList)
                 recyclerView.adapter = historyAdapter
         } else {

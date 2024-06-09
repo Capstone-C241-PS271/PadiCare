@@ -7,9 +7,10 @@
     android:layout_marginHorizontal="16dp"
     android:layout_marginBottom="12dp"
     android:layout_gravity="center"
-    app:cardElevation="4dp">
+    app:cardElevation="0.5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardviewHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
