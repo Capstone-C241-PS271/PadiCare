@@ -100,14 +100,27 @@ class ScanFragment : Fragment() {
         }
 
         binding.analyzeButton.setOnClickListener {
-            val bitmap = (binding.previewImageView.drawable as BitmapDrawable).bitmap
-            CoroutineScope(Dispatchers.Main).launch {
-                uploadImage(bitmap)
+            val drawable = binding.previewImageView.drawable
+            if (drawable is BitmapDrawable) {
+                val bitmap = drawable.bitmap
+                CoroutineScope(Dispatchers.Main).launch {
+                    uploadImage(bitmap)
+                }
+            } else {
+                Toast.makeText(requireContext(), "Silakan pilih foto terlebih dahulu", Toast.LENGTH_SHORT).show()
             }
         }
 
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
+
+        binding.previewImageView.post {
+            val width = binding.previewImageView.width
+            val layoutParams = binding.previewImageView.layoutParams
+            layoutParams.height = width
+            binding.previewImageView.layoutParams = layoutParams
+        }
     }
+
 
     override fun onResume() {
         super.onResume()
