@@ -20,6 +20,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -30,12 +31,15 @@ import com.capstone.padicare.data.response.PredictRequest
 import com.capstone.padicare.data.retrofit.ApiConfig
 import com.capstone.padicare.helper.ResultState
 import com.capstone.padicare.model.ViewModelFactory
+import com.capstone.padicare.ui.ResultActivity
 import com.capstone.padicare.ui.news.NewsViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 
 class ScanFragment : Fragment() {
 
@@ -120,7 +124,6 @@ class ScanFragment : Fragment() {
             binding.previewImageView.layoutParams = layoutParams
         }
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -207,15 +210,41 @@ class ScanFragment : Fragment() {
 
             if (response.isSuccessful) {
                 val predictResponse = response.body()
-                Toast.makeText(requireContext(), "Upload successful", Toast.LENGTH_SHORT).show()
+                val predictionResult = predictResponse?.data?.result ?: "Unknown"
+                val suggestion = predictResponse?.data?.suggestion ?: "No suggestion available"
+
+                Log.d("ScanFragment", "Prediction Result: $predictionResult")
+                Log.d("ScanFragment", "Suggestion: $suggestion")
+
+                val imageUri = saveImageAndGetUri(bitmap)
+                Log.d("ScanFragment", "Image URI: $imageUri")
+
+                val intent = Intent(requireContext(), ResultActivity::class.java).apply {
+                    putExtra("imageUri", imageUri.toString())
+                    putExtra("predictionResult", predictionResult)
+                    putExtra("suggestion", suggestion)
+                }
+                startActivity(intent)
             } else {
                 Toast.makeText(requireContext(), "Upload failed", Toast.LENGTH_SHORT).show()
+                Log.e("ScanFragment", "Upload failed: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(requireContext(), "An error occurred", Toast.LENGTH_SHORT).show()
+            Log.e("ScanFragment", "An error occurred: ${e.message}")
         }
     }
+
+    private fun saveImageAndGetUri(bitmap: Bitmap): Uri {
+        val filename = "temp_image.jpg"
+        val file = File(requireContext().cacheDir, filename)
+        FileOutputStream(file).use { fos ->
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+        }
+        return FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", file)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
