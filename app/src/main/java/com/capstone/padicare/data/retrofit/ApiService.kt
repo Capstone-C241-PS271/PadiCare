@@ -35,7 +35,7 @@ interface ApiService {
     @GET("/api/users/me")
     suspend fun getUserInfo(@Header("Authorization") token: String): Response<BaseResponse<UserModel>>
 
-    @POST("/api/predictions")
+    @POST("/api/predictions/")
     suspend fun predict(@Header("Authorization") token: String, @Body predictRequest: PredictRequest): Response<PredictResponse>
 
 }

@@ -15,7 +15,7 @@ android {
         versionName = "1.0"
 
         buildConfigField("String", "API_KEY", "\"8d82b1ad183d4214ac6f81e96187f288\"")
-        buildConfigField("String","BASE_URL","\"https://padicare-backend-dcrabagl2a-et.a.run.app/\"")
+        buildConfigField("String","BASE_URL","\"https://padicare-backend-v1-dcrabagl2a-et.a.run.app/\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
