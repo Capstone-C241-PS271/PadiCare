@@ -11,7 +11,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,13 +22,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import com.capstone.padicare.R
 import com.capstone.padicare.databinding.FragmentScanBinding
 import com.capstone.padicare.ui.CameraActivity
 import com.capstone.padicare.data.response.PredictRequest
 import com.capstone.padicare.data.retrofit.ApiConfig
-import com.capstone.padicare.helper.ResultState
 import com.capstone.padicare.model.ViewModelFactory
 import com.capstone.padicare.ui.ResultActivity
 import com.capstone.padicare.ui.news.NewsViewModel

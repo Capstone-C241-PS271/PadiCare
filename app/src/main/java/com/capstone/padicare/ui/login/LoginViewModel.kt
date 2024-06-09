@@ -4,13 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.capstone.padicare.data.pref.UserModel
 import com.capstone.padicare.data.repo.UserRepository
 import com.capstone.padicare.data.response.LoginResponse
 import com.capstone.padicare.helper.ResultState
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 
 class LoginViewModel(private val userRepo: UserRepository): ViewModel() {
 

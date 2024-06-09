@@ -8,7 +8,7 @@ import android.os.Looper
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.padicare.ui.started.StartedActivity
-import com.capstone.padicare.MainActivity
+
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

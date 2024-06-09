@@ -14,7 +14,6 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.capstone.padicare.R
 import com.capstone.padicare.databinding.FragmentProfileBinding
 import com.capstone.padicare.helper.ResultState
