@@ -26,7 +26,15 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(HomeFragment(), true)
+
+        val navigateTo = intent.getStringExtra("navigateTo")
+        if (navigateTo == "HistoryFragment") {
+            replaceFragment(HistoryFragment(), true)
+            binding.bottomNav.selectedItemId = R.id.history
+        } else {
+            replaceFragment(HomeFragment(), true)
+            binding.bottomNav.selectedItemId = R.id.home
+        }
 
         binding.bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
