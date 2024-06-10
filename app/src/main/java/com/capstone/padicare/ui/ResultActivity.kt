@@ -2,14 +2,17 @@ package com.capstone.padicare.ui
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.capstone.padicare.MainActivity
 import com.capstone.padicare.R
@@ -27,8 +30,20 @@ class ResultActivity : AppCompatActivity() {
             title = getString(R.string.result_title)
             setDisplayHomeAsUpEnabled(true)
             setHomeButtonEnabled(true)
-            setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_24)
+            setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24_white)
+            setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this@ResultActivity, R.color.hijau3)))
+
+            val textView = TextView(this@ResultActivity).apply {
+                text = getString(R.string.result_title)
+                setTextColor(Color.WHITE)
+                textSize = 20f
+                typeface = Typeface.DEFAULT_BOLD
+            }
+            setDisplayShowTitleEnabled(false)
+            setCustomView(textView)
+            setDisplayShowCustomEnabled(true)
         }
+
 
         val imageUriString = intent.getStringExtra("imageUri")
         val predictionResult = intent.getStringExtra("predictionResult")
