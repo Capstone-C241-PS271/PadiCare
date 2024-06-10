@@ -30,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        supportActionBar?.hide()
         // Periksa status login
         checkLoginStatus()
 

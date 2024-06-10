@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -28,6 +29,7 @@ class CameraActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -36,6 +38,8 @@ class CameraActivity : AppCompatActivity() {
         } else {
             requestCameraPermission()
         }
+
+        supportActionBar?.hide()
 
         binding.captureImage.setOnClickListener { takePhoto() }
         binding.switchCamera.setOnClickListener { switchCamera() }

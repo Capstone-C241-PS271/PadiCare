@@ -17,7 +17,6 @@ class ResultActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityResultBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.apply {
@@ -25,7 +24,6 @@ class ResultActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
             setHomeButtonEnabled(true)
             setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_24)
-            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
 
         val imageUriString = intent.getStringExtra("imageUri")

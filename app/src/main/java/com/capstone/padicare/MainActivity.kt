@@ -58,32 +58,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun showUpButton(){
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-
-    fun hideUpButton(){
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
-    }
-
-    fun clickUpButton(){
-        addMenuProvider(object : MenuProvider{
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                return
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return when (menuItem.itemId){
-                    android.R.id.home -> {
-                        supportFragmentManager.popBackStack()
-                        true
-                    }
-                    else -> false
-                }
-            }
-        })
-    }
-
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
@@ -93,7 +67,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun openUrl(url: String) {
-//        val url = view.getTag(R.id.news_link) as? String
         url.let {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(url)
