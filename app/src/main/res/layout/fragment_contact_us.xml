@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".ui.contact.ContactUsFragment">
 
     <LinearLayout
         android:id="@+id/machinelearning"
@@ -23,7 +26,7 @@
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Machine Learning"
+            android:text="@string/machine_learning"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -32,25 +35,28 @@
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nama\t : Muhammad Efendi"
+            android:text="Nama\t : Muhammad Efendi \nID \t\t\t : M443D4KY2119"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"/>
 
         <TextView
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nama\t : Mohammad Hasan Tajuk Rizal"
+            android:text="Nama\t : Mohammad Hasan Tajuk Rizal \nID \t\t\t : M296D4KY2429"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"/>
 
         <TextView
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nama\t : Yudha Perwira Bima Sakti"
+            android:text="Nama\t : Yudha Perwira Bima Sakti \nID \t\t\t : M296D4KY2299"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -71,7 +77,7 @@
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cloud Computing"
+            android:text="@string/cloud_computing"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -80,17 +86,19 @@
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nama\t : Rendi Saputra"
+            android:text="Nama\t : Rendi Saputra \nID \t\t\t : C542D4KY1264"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"/>
 
         <TextView
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nama\t : Revani Zadah Pratiwi"
+            android:text="Nama\t : Revani Zadah Pratiwi \nID \t\t\t : C542D4KX1322"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -111,7 +119,7 @@
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mobile Development"
+            android:text="@string/mobile_development"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -120,17 +128,19 @@
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nama\t : Novriyan Ferdiyanto"
+            android:text="Nama\t : Novriyan Ferdiyanto \nID \t\t\t : A107D4KY4250"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"/>
 
         <TextView
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nama\t : Roy Saputra As"
+            android:text="Nama\t : Roy Saputra As \nID \t\t\t : A107D4KY4249"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

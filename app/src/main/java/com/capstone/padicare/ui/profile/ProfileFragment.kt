@@ -18,6 +18,7 @@ import com.capstone.padicare.R
 import com.capstone.padicare.databinding.FragmentProfileBinding
 import com.capstone.padicare.helper.ResultState
 import com.capstone.padicare.model.ViewModelFactory
+import com.capstone.padicare.ui.contact.ContactUsFragment
 import com.capstone.padicare.ui.started.StartedActivity
 
 class ProfileFragment : Fragment(), View.OnClickListener {
