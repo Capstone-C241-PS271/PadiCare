@@ -13,7 +13,7 @@ class ContactFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)  // Enable options menu for this fragment
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -23,8 +23,6 @@ class ContactFragment : Fragment() {
         _binding = FragmentContactBinding.inflate(inflater, container, false)
         return binding?.root
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

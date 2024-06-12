@@ -75,8 +75,7 @@ class NewsFragment : Fragment() {
                         }
                     }
                     is ResultState.Loading -> {
-                        // Show loading indicator if needed
-                        // binding.loadingIndicator.visibility = View.VISIBLE // Example
+
                     }
                 }
             })

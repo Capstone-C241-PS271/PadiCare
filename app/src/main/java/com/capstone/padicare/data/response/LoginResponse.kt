@@ -1,7 +1,5 @@
 package com.capstone.padicare.data.response
 
-
-
 data class LoginResponse (
     val token: String
 )

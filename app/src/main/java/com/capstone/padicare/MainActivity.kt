@@ -3,12 +3,8 @@ package com.capstone.padicare
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import com.capstone.padicare.databinding.ActivityMainBinding
 import com.capstone.padicare.ui.history.HistoryFragment
@@ -19,7 +15,6 @@ import com.capstone.padicare.ui.scan.ScanFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private var fragment: Fragment = ScanFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +53,6 @@ class MainActivity : AppCompatActivity() {
         }
         fragmentTransaction.commit()
 
-        // Set visibility of BottomNavigationView
         if (showBottomNav) {
             binding.bottomNav.visibility = android.view.View.VISIBLE
         } else {

@@ -9,7 +9,6 @@ import com.capstone.padicare.data.response.PredictRequest
 import com.capstone.padicare.data.response.PredictResponse
 import com.capstone.padicare.data.response.RegisterRequest
 import com.capstone.padicare.data.response.RegisterResponse
-import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.Response

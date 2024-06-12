@@ -12,15 +12,9 @@ import com.capstone.padicare.helper.ResultState
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
 
-
-
 class UserRepository private constructor(
     private val userPref: UserPreference,
     private val apiService: ApiService) {
-
-    suspend fun saveSession(user: UserModel){
-        userPref.saveSession(user)
-    }
 
     fun getSession(): Flow<UserModel> {
         return userPref.getSession()

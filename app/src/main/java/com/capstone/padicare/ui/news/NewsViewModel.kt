@@ -19,7 +19,6 @@ class NewsViewModel(private val userRepository: UserRepository) : ViewModel() {
     val newsList: LiveData<List<NewsItem>> = _newsList
 
     private val _userInfo = MutableLiveData<ResultState<BaseResponse<UserModel>>>()
-    val userInfo: LiveData<ResultState<BaseResponse<UserModel>>> = _userInfo
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
@@ -42,8 +41,6 @@ class NewsViewModel(private val userRepository: UserRepository) : ViewModel() {
         )
     }
 
-
-
     fun fetchUserInfo(token: String): LiveData<ResultState<BaseResponse<UserModel>>> {
         viewModelScope.launch {
             _userInfo.value = ResultState.Loading
@@ -53,7 +50,4 @@ class NewsViewModel(private val userRepository: UserRepository) : ViewModel() {
         return _userInfo
     }
 
-    fun getData(): LiveData<UserModel> {
-        return userRepository.getSession().asLiveData()
-    }
 }

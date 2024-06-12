@@ -1,17 +1,10 @@
 package com.capstone.padicare.helper
 
-import android.content.Context
-import android.net.Uri
-import java.io.File
-import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-fun uriToFile(imageUri: Uri, context: Context) : File {
-    return File(context.cacheDir, "${System.currentTimeMillis()}_temp.jpg")
-}
 
 fun String.toDateFormat(): String? {
     return try {

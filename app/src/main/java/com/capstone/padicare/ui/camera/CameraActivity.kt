@@ -1,4 +1,4 @@
-package com.capstone.padicare.ui
+package com.capstone.padicare.ui.camera
 
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -67,19 +67,16 @@ class CameraActivity : AppCompatActivity() {
         imageCaptureInstance.takePicture(
             outputOptions, ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback {
-                // Di dalam onImageSaved
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
                     Log.d("CameraActivity", "Photo saved: $savedUri")
 
-                    // Simpan Uri ke SharedPreferences
                     val sharedPreferences = getSharedPreferences("com.capstone.padicare.PREFERENCE_FILE_KEY", MODE_PRIVATE)
                     with(sharedPreferences.edit()) {
                         putString("captured_image_uri", savedUri.toString())
                         apply()
                     }
 
-                    // Kembali ke ScanFragment
                     finish()
                 }
 

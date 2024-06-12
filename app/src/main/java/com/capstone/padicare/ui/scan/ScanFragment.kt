@@ -22,14 +22,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.capstone.padicare.databinding.FragmentScanBinding
-import com.capstone.padicare.ui.CameraActivity
+import com.capstone.padicare.ui.camera.CameraActivity
 import com.capstone.padicare.data.response.PredictRequest
 import com.capstone.padicare.data.retrofit.ApiConfig
-import com.capstone.padicare.model.ViewModelFactory
 import com.capstone.padicare.ui.ResultActivity
-import com.capstone.padicare.ui.news.NewsViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,11 +40,10 @@ class ScanFragment : Fragment() {
     private var _binding: FragmentScanBinding? = null
     private val binding get() = _binding!!
     private lateinit var sharedPreferences: SharedPreferences
-    private val viewModel: NewsViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
     private val pickImageGallery = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
             binding.previewImageView.setImageURI(uri)
-            binding.analyzeButton.visibility = View.VISIBLE // Tampilkan tombol upload setelah gambar dipilih
+            binding.analyzeButton.visibility = View.VISIBLE
         }
     }
 
@@ -177,7 +173,6 @@ class ScanFragment : Fragment() {
             val imageUri = Uri.parse(it)
             binding.previewImageView.setImageURI(imageUri)
 
-            // Hapus Uri setelah ditampilkan
             with(sharedPreferences.edit()) {
                 remove("captured_image_uri")
                 apply()

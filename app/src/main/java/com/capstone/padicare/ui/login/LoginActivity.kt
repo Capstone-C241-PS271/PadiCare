@@ -31,7 +31,6 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-        // Periksa status login
         checkLoginStatus()
 
         setupAction()
@@ -56,7 +55,6 @@ class LoginActivity : AppCompatActivity() {
             val email = binding.edLoginUsername.text.toString()
             val password = binding.edLoginPassword.text.toString()
 
-            // Validasi input
             if (!validateInput(email, password)) return@setOnClickListener
 
             loginViewModel.login(email, password)
@@ -124,7 +122,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun handleLoginSuccess(response: LoginResponse) {
         saveLoginStatus(true)
-        saveToken(response.token) // Simpan token setelah login berhasil
+        saveToken(response.token)
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         }
@@ -170,13 +168,13 @@ class LoginActivity : AppCompatActivity() {
     private fun setError(textInputLayout: TextInputLayout, error: String) {
         textInputLayout.error = error
         if (textInputLayout == binding.passwordEditTextLayout) {
-            textInputLayout.errorIconDrawable = null // Menyembunyikan icon error pada password
+            textInputLayout.errorIconDrawable = null
         }
     }
 
     private fun clearError(textInputLayout: TextInputLayout) {
         textInputLayout.error = null
-        textInputLayout.errorIconDrawable = null // Hapus icon kesalahan
+        textInputLayout.errorIconDrawable = null
     }
 
     private fun isValidEmail(email: String): Boolean {
