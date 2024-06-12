@@ -15,6 +15,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import com.capstone.padicare.R
 import com.capstone.padicare.databinding.FragmentScanBinding
 import com.capstone.padicare.ui.camera.CameraActivity
 import com.capstone.padicare.data.response.PredictRequest
@@ -47,19 +49,10 @@ class ScanFragment : Fragment() {
         }
     }
 
-    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-        if (isGranted) {
-            pickImageFromGallery()
-        } else {
-            Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
-        }
-    }
-
     private lateinit var requestPermissionsLauncher: ActivityResultLauncher<Array<String>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Register ActivityResult handler
         requestPermissionsLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) { permissions ->
@@ -195,6 +188,9 @@ class ScanFragment : Fragment() {
 
         val predictRequest = PredictRequest(image = base64Image)
 
+        val progressBar = requireView().findViewById<ProgressBar>(R.id.progressBar)
+        progressBar.visibility = View.VISIBLE
+
         try {
             val response = withContext(Dispatchers.IO) {
                 ApiConfig.getApiService().predict(token, predictRequest)
@@ -225,8 +221,11 @@ class ScanFragment : Fragment() {
             e.printStackTrace()
             Toast.makeText(requireContext(), "An error occurred", Toast.LENGTH_SHORT).show()
             Log.e("ScanFragment", "An error occurred: ${e.message}")
+        } finally {
+            progressBar.visibility = View.GONE
         }
     }
+
 
     private fun saveImageAndGetUri(bitmap: Bitmap): Uri {
         val filename = "temp_image.jpg"
