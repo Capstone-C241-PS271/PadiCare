@@ -22,14 +22,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navigateTo = intent.getStringExtra("navigateTo")
-        if (navigateTo == "HistoryFragment") {
-            replaceFragment(HistoryFragment(), true)
-            binding.bottomNav.selectedItemId = R.id.history
-        } else {
-            replaceFragment(HomeFragment(), true)
-            binding.bottomNav.selectedItemId = R.id.home
-        }
+        handleDirectChangeFragment()
 
         binding.bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
@@ -41,6 +34,20 @@ class MainActivity : AppCompatActivity() {
                 else -> {}
             }
             true
+        }
+    }
+
+    private  fun handleDirectChangeFragment() {
+        val navigateTo = intent.getStringExtra("navigateTo")
+        if (navigateTo == "HistoryFragment") {
+            replaceFragment(HistoryFragment(), true)
+            binding.bottomNav.selectedItemId = R.id.history
+        } else if(navigateTo == "ScanFragment") {
+            replaceFragment(ScanFragment(), true)
+            binding.bottomNav.selectedItemId = R.id.scan
+        } else {
+            replaceFragment(HomeFragment(), true)
+            binding.bottomNav.selectedItemId = R.id.home
         }
     }
 

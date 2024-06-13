@@ -8,13 +8,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import com.capstone.padicare.MainActivity
 import com.capstone.padicare.R
 import com.capstone.padicare.databinding.FragmentHomeBinding
 import com.capstone.padicare.model.ViewModelFactory
@@ -67,6 +66,12 @@ class HomeFragment : Fragment() {
         } else {
             Toast.makeText(requireContext(), "Token is missing", Toast.LENGTH_SHORT).show()
             redirectToLogin()
+        }
+
+        _binding?.imgToScan?.setOnClickListener {
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            intent.putExtra("navigateTo", "ScanFragment")
+            startActivity(intent)
         }
     }
 
