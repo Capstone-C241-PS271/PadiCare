@@ -50,4 +50,5 @@
     <string name="machine_learning">Machine Learning</string>
     <string name="cloud_computing">Cloud Computing</string>
     <string name="mobile_development">Mobile Development</string>
+    <string name="button_add_feed">Button Add Feed</string>
 </resources>
