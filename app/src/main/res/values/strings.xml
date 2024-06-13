@@ -51,4 +51,8 @@
     <string name="cloud_computing">Cloud Computing</string>
     <string name="mobile_development">Mobile Development</string>
     <string name="button_add_feed">Button Add Feed</string>
+    <string name="yes">Iya</string>
+    <string name="no">Tidak</string>
+    <string name="logout_title">Keluar</string>
+    <string name="logout_message">Apakah Anda Yakin Ingin Keluar ?</string>
 </resources>

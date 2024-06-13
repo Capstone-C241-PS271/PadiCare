@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.capstone.padicare.R
@@ -100,15 +101,28 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                 }
             }
             R.id.buttonLogout -> {
-                viewModel.logout()
-                clearLoginStatus() // Hapus status login
-                navigateToStartedActivity()
+                confirmlogout()
             }
         }
     }
 
+    private fun confirmlogout() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.logout_title))
+            .setMessage(getString(R.string.logout_message))
+            .setPositiveButton(getString(R.string.yes)) { dialog, which ->
+                viewModel.logout()
+                clearLoginStatus()
+                navigateToStartedActivity()
+            }
+            .setNegativeButton(getString(R.string.no)) { dialog, which ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
+
     private fun clearLoginStatus() {
-        // Bersihkan cache status login
         val sharedPreferences = requireContext().getSharedPreferences("PadiCarePreferences", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.remove("isLoggedIn")

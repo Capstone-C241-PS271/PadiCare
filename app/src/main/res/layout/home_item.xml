@@ -6,7 +6,7 @@
     android:layout_marginHorizontal="16dp"
     android:layout_marginBottom="12dp"
     android:layout_gravity="center"
-    app:cardElevation="4dp">
+    app:cardElevation="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             android:text="User"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold"/>
 
         <TextView
@@ -32,7 +32,7 @@
             android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:text="19/06/2024"
-            android:textSize="15sp"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/nameFeed"
             app:layout_constraintStart_toStartOf="@+id/nameFeed"
             app:layout_constraintTop_toBottomOf="@+id/nameFeed" />
@@ -42,8 +42,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="ini cerita saya"
-            android:textSize="16dp"
+            android:text="@tools:sample/lorem/random"
+            android:maxLines="2"
+            android:textSize="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
