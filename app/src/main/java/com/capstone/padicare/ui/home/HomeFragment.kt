@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone.padicare.MainActivity
 import com.capstone.padicare.R
@@ -46,8 +47,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
+
         feedAdapter = FeedAdapter(emptyList())
         binding.rvFeed.adapter = feedAdapter
+        binding.rvFeed.layoutManager = LinearLayoutManager(requireContext())
 
         sharedPreferences = requireActivity().getSharedPreferences("PadiCarePreferences", Context.MODE_PRIVATE)
         val token = sharedPreferences.getString("token", "") ?: ""

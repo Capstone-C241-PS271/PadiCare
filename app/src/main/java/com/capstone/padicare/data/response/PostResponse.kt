@@ -11,8 +11,8 @@ data class PostResponse(
     @field:SerializedName("id")
     val id: Int,
 
-    @field:SerializedName("author_id")
-    val authorId: Int,
+    @field:SerializedName("author")
+    val author: String,
 
     @field:SerializedName("title")
     val title: String,

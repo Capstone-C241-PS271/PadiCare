@@ -25,12 +25,12 @@ class FeedAdapter(private val feedList: List<PostResponse>?) : RecyclerView.Adap
     }
 
     override fun getItemCount(): Int {
-        return feedList!!.size
+        return feedList?.size ?: 0
     }
 
     override fun onBindViewHolder(holder: FeedViewHolder, position: Int) {
         val feed = feedList?.get(position)
-        holder.nameFeedTextView.text = feed?.authorId.toString()
+        holder.nameFeedTextView.text = feed?.author.toString()
         holder.titleFeedTextView.text = feed?.title
         holder.createAtTextView.text = feed?.createdAt?.toDateFormat()
         holder.storyAddTextView.text = feed?.content
