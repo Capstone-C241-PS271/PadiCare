@@ -1,6 +1,6 @@
 package com.capstone.padicare.data.repo
 
-import com.capstone.padicare.api.ApiClient
+import com.capstone.padicare.data.api.ApiClient
 import com.capstone.padicare.data.retrofit.ApiConfig
 import com.capstone.padicare.newsresponse.Article
 import com.capstone.padicare.newsresponse.NewsResponse

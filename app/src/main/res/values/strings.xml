@@ -38,6 +38,7 @@
     <string name="error_short_password">Password harus memiliki 8 karakter</string>
     <string name="error_empty_username">Isi Username Terlebih Dahulu</string>
     <string name="result_title">Result</string>
+    <string name="post">Post</string>
     <string name="welcome">Selamat Datang</string>
     <string name="login_first">Silahkan Login Terlebih Dahulu</string>
     <string name="e_mail">E-mail</string>
@@ -59,5 +60,6 @@
     <string name="logout_message">Apakah Anda Yakin Ingin Keluar ?</string>
     <string name="select_image">Silahkan Ambil Gambar atau Pilih Gambar Terlebih Dahulu</string>
     <string name="description">Tuliskan yang anda pikirkan</string>
+    <string name="title">Tuliskan judul postingan</string>
     <string name="kirim">Kirim</string>
 </resources>

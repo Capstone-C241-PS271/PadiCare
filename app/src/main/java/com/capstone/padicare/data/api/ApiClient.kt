@@ -1,4 +1,4 @@
-package com.capstone.padicare.api
+package com.capstone.padicare.data.api
 
 import com.capstone.padicare.database.NewsDao
 import retrofit2.Retrofit
