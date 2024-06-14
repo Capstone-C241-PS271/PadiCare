@@ -2,9 +2,11 @@ package com.capstone.padicare.data.retrofit
 
 import com.capstone.padicare.data.pref.UserModel
 import com.capstone.padicare.data.response.BaseResponse
+import com.capstone.padicare.data.response.CreatedResponse
 import com.capstone.padicare.data.response.Data
 import com.capstone.padicare.data.response.LoginRequest
 import com.capstone.padicare.data.response.LoginResponse
+import com.capstone.padicare.data.response.PostRequest
 import com.capstone.padicare.data.response.PostResponse
 import com.capstone.padicare.data.response.PredictRequest
 import com.capstone.padicare.data.response.PredictResponse
@@ -35,5 +37,8 @@ interface ApiService {
     suspend fun getHistory(@Header("Authorization") token: String): Response<BaseResponse<List<Data>>>
 
     @POST("/api/posts/")
-    suspend fun createPost(@Header("Authorization") token: String, @Body post: PostResponse): Response<PostResponse>
+    suspend fun createPost(@Header("Authorization") token: String, @Body post: PostRequest): Response<CreatedResponse>
+
+    @GET("/api/posts/")
+    suspend fun getPosts(@Header("Authorization") token: String): Response<BaseResponse<List<PostResponse>>>
 }

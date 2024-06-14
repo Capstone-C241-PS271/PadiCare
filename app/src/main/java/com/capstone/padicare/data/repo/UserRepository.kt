@@ -3,8 +3,10 @@ package com.capstone.padicare.data.repo
 import com.capstone.padicare.data.pref.UserModel
 import com.capstone.padicare.data.pref.UserPreference
 import com.capstone.padicare.data.response.BaseResponse
+import com.capstone.padicare.data.response.CreatedResponse
 import com.capstone.padicare.data.response.LoginRequest
 import com.capstone.padicare.data.response.LoginResponse
+import com.capstone.padicare.data.response.PostRequest
 import com.capstone.padicare.data.response.PostResponse
 import com.capstone.padicare.data.response.RegisterRequest
 import com.capstone.padicare.data.response.RegisterResponse
@@ -89,7 +91,7 @@ class UserRepository(
         }
     }
 
-    suspend fun createPost(token: String, post: PostResponse): Response<PostResponse> {
+    suspend fun createPost(token: String, post: PostRequest): Response<CreatedResponse> {
         return apiService.createPost(token, post)
     }
 

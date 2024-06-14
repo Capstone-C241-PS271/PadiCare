@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -32,24 +33,37 @@
             android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:text="19/06/2024"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@+id/nameFeed"
             app:layout_constraintStart_toStartOf="@+id/nameFeed"
             app:layout_constraintTop_toBottomOf="@+id/nameFeed" />
 
         <TextView
+            android:id="@+id/titleFeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@tools:sample/lorem"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/createat"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <TextView
             android:id="@+id/storyAdd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@tools:sample/lorem/random"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
             android:maxLines="2"
+            android:text="@tools:sample/lorem/random"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/createat"
-            app:layout_constraintTop_toBottomOf="@+id/createat" />
+            app:layout_constraintTop_toBottomOf="@id/titleFeed" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

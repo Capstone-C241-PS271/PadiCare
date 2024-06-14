@@ -5,18 +5,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.capstone.padicare.data.repo.UserRepository
-import com.capstone.padicare.data.response.PostResponse
+import com.capstone.padicare.data.response.CreatedResponse
+import com.capstone.padicare.data.response.PostRequest
 import kotlinx.coroutines.launch
 import okio.IOException
 
 class FeedViewModel(private val repository: UserRepository) : ViewModel() {
-    private val _feed = MutableLiveData<Result<PostResponse>>()
-    val feedResult : LiveData<Result<PostResponse>> = _feed
+    private val _feed = MutableLiveData<Result<CreatedResponse>>()
+    val feedResult : LiveData<Result<CreatedResponse>> = _feed
 
-    fun createPost(token: String, postResponse: PostResponse) {
+    fun createPost(token: String, postRequest: PostRequest) {
         viewModelScope.launch {
             try {
-                val response = repository.createPost(token, postResponse)
+                val response = repository.createPost(token, postRequest)
                 if (response.isSuccessful) {
                     _feed.value = Result.success(response.body()!!)
                 } else {
