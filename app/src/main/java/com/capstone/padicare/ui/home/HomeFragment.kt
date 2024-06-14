@@ -13,18 +13,26 @@ import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import com.capstone.padicare.MainActivity
 import com.capstone.padicare.R
+import com.capstone.padicare.data.retrofit.ApiConfig
 import com.capstone.padicare.databinding.FragmentHomeBinding
 import com.capstone.padicare.model.ViewModelFactory
 import com.capstone.padicare.helper.ResultState
+import com.capstone.padicare.ui.feed.FeedAdapter
 import com.capstone.padicare.ui.feed.FeedAddActivity
 import com.capstone.padicare.ui.login.LoginActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var feedAdapter: FeedAdapter
     private val viewModel: HomeViewModel by viewModels { ViewModelFactory.getInstance(requireContext()) }
 
     override fun onCreateView(
@@ -38,6 +46,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
+        feedAdapter = FeedAdapter(emptyList())
+        binding.rvFeed.adapter = feedAdapter
 
         sharedPreferences = requireActivity().getSharedPreferences("PadiCarePreferences", Context.MODE_PRIVATE)
         val token = sharedPreferences.getString("token", "") ?: ""
@@ -79,7 +89,31 @@ class HomeFragment : Fragment() {
             val intent = Intent(requireContext(), FeedAddActivity::class.java)
             startActivity(intent)
         }
+        lifecycleScope.launch {
+            getPosts()
+        }
+    }
 
+    private suspend fun getPosts(){
+        val apiService = ApiConfig.getApiService()
+        sharedPreferences = requireActivity().getSharedPreferences("PadiCarePreferences", Context.MODE_PRIVATE)
+        var token = sharedPreferences.getString("token", "")?:""
+
+        try {
+            val response = withContext(Dispatchers.IO){
+                apiService.getPosts("Bearer $token")
+            }
+            if (response.isSuccessful){
+                val postResponse = response.body()
+                val postList = postResponse?.data?.reversed()
+                feedAdapter = FeedAdapter(postList)
+                binding.rvFeed.adapter = feedAdapter
+            } else{
+                Log.e("FeedActivity", "Failed to fetch posts: ${response.code()}")
+            }
+        } catch (e: Exception){
+            Log.e("FeedActivity", "Error: ${e.message}")
+        }
     }
 
     private fun redirectToLogin() {

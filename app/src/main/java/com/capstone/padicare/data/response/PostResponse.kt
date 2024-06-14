@@ -11,7 +11,7 @@ data class PostResponse(
     @field:SerializedName("id")
     val id: Int,
 
-    @field:SerializedName("authorId")
+    @field:SerializedName("author_id")
     val authorId: Int,
 
     @field:SerializedName("title")
@@ -20,10 +20,10 @@ data class PostResponse(
     @field:SerializedName("content")
     val content: String,
 
-    @field:SerializedName("createdAt")
+    @field:SerializedName("created_at")
     val createdAt: String,
 
-    @field:SerializedName("updatedAt")
+    @field:SerializedName("updated_at")
     val updatedAt: String
 )
 
