@@ -1,4 +1,4 @@
-package com.capstone.padicare.ui
+package com.capstone.padicare.ui.result
 
 import android.content.Intent
 import android.graphics.Color
@@ -6,18 +6,15 @@ import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.capstone.padicare.MainActivity
 import com.capstone.padicare.R
 import com.capstone.padicare.databinding.ActivityResultBinding
-import com.capstone.padicare.ui.history.HistoryFragment
 
 class ResultActivity : AppCompatActivity() {
     private lateinit var binding: ActivityResultBinding

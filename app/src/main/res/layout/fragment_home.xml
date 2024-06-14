@@ -60,7 +60,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="@android:color/white" />
+
 
         <ScrollView
             android:id="@+id/sv_feed"
@@ -79,17 +81,18 @@
                 <ImageButton
                     android:id="@+id/imgToScan"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="80dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/allrounded_green"
+                    android:contentDescription="@string/img_btn_scan"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toTopOf="@+id/rvFeed"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:contentDescription="@string/img_btn_scan"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvFeed"
@@ -98,34 +101,36 @@
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imgToScan"
                     tools:listitem="@layout/home_item" />
 
                 <TextView
                     android:id="@+id/tvScan"
-                    android:layout_width="237dp"
-                    android:layout_height="69dp"
-                    android:layout_marginStart="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:padding="10dp"
                     android:text="@string/btn_img_to_scan"
-                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/imgToScan"
-                    app:layout_constraintEnd_toEndOf="@+id/imgToScan"
-                    app:layout_constraintHorizontal_bias="0.007"
                     app:layout_constraintStart_toStartOf="@+id/imgToScan"
-                    app:layout_constraintTop_toTopOf="@+id/imgToScan"
-                    app:layout_constraintVertical_bias="0.604" />
+                    app:layout_constraintTop_toTopOf="@+id/imgToScan" />
 
                 <ImageView
                     android:id="@+id/imgScan"
                     android:layout_width="60dp"
-                    android:layout_height="70dp"
+                    android:layout_height="60dp"
                     android:src="@drawable/baseline_qr_code_scanner_24"
-                    app:layout_constraintBottom_toBottomOf="@+id/imgToScan"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvScan"
                     app:layout_constraintEnd_toEndOf="@+id/imgToScan"
+                    app:layout_constraintHorizontal_bias="0.323"
                     app:layout_constraintStart_toEndOf="@+id/tvScan"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@+id/tvScan"
+                    app:layout_constraintVertical_bias="0.465" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

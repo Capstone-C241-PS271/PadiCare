@@ -19,6 +19,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -28,7 +29,7 @@ import com.capstone.padicare.databinding.FragmentScanBinding
 import com.capstone.padicare.ui.camera.CameraActivity
 import com.capstone.padicare.data.response.PredictRequest
 import com.capstone.padicare.data.retrofit.ApiConfig
-import com.capstone.padicare.ui.ResultActivity
+import com.capstone.padicare.ui.result.ResultActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -97,7 +98,12 @@ class ScanFragment : Fragment() {
                     uploadImage(bitmap)
                 }
             } else {
-                Toast.makeText(requireContext(), "Silakan pilih foto terlebih dahulu", Toast.LENGTH_SHORT).show()
+                val alertDialog = AlertDialog.Builder(requireContext())
+                    .setTitle("Error")
+                    .setMessage(getString(R.string.select_image))
+                    .setPositiveButton("OK", null)
+                    .create()
+                alertDialog.show()
             }
         }
 
