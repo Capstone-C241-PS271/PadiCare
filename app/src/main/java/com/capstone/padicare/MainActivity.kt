@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         handleDirectChangeFragment()
-
+        
         binding.bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> replaceFragment(HomeFragment(), true)
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private  fun handleDirectChangeFragment() {
-        val navigateTo = intent.getStringExtra("navigateTo")
+        val navigateTo: String? = intent.getStringExtra("navigateTo")
         if (navigateTo == "HistoryFragment") {
             replaceFragment(HistoryFragment(), true)
             binding.bottomNav.selectedItemId = R.id.history

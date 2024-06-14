@@ -18,6 +18,7 @@ import com.capstone.padicare.R
 import com.capstone.padicare.databinding.FragmentHomeBinding
 import com.capstone.padicare.model.ViewModelFactory
 import com.capstone.padicare.helper.ResultState
+import com.capstone.padicare.ui.feed.FeedAddActivity
 import com.capstone.padicare.ui.login.LoginActivity
 
 class HomeFragment : Fragment() {
@@ -73,6 +74,12 @@ class HomeFragment : Fragment() {
             intent.putExtra("navigateTo", "ScanFragment")
             startActivity(intent)
         }
+
+        binding.feedAdd.setOnClickListener {
+            val intent = Intent(requireContext(), FeedAddActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun redirectToLogin() {
