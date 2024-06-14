@@ -5,6 +5,7 @@ import com.capstone.padicare.data.response.BaseResponse
 import com.capstone.padicare.data.response.Data
 import com.capstone.padicare.data.response.LoginRequest
 import com.capstone.padicare.data.response.LoginResponse
+import com.capstone.padicare.data.response.PostResponse
 import com.capstone.padicare.data.response.PredictRequest
 import com.capstone.padicare.data.response.PredictResponse
 import com.capstone.padicare.data.response.RegisterRequest
@@ -33,4 +34,6 @@ interface ApiService {
     @GET("/api/predictions/")
     suspend fun getHistory(@Header("Authorization") token: String): Response<BaseResponse<List<Data>>>
 
+    @POST("/api/posts/")
+    suspend fun createPost(@Header("Authorization") token: String, @Body post: PostResponse): Response<PostResponse>
 }

@@ -5,14 +5,16 @@ import com.capstone.padicare.data.pref.UserPreference
 import com.capstone.padicare.data.response.BaseResponse
 import com.capstone.padicare.data.response.LoginRequest
 import com.capstone.padicare.data.response.LoginResponse
+import com.capstone.padicare.data.response.PostResponse
 import com.capstone.padicare.data.response.RegisterRequest
 import com.capstone.padicare.data.response.RegisterResponse
 import com.capstone.padicare.data.retrofit.ApiService
 import com.capstone.padicare.helper.ResultState
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
+import retrofit2.Response
 
-class UserRepository private constructor(
+class UserRepository(
     private val userPref: UserPreference,
     private val apiService: ApiService) {
 
@@ -87,8 +89,9 @@ class UserRepository private constructor(
         }
     }
 
-    suspend fun setAuth(user: UserModel) = userPref.saveSession(user)
-
+    suspend fun createPost(token: String, post: PostResponse): Response<PostResponse> {
+        return apiService.createPost(token, post)
+    }
 
     companion object {
         @Volatile

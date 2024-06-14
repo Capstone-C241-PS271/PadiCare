@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.capstone.padicare.data.repo.UserRepository
 import com.capstone.padicare.data.retrofit.Injection
+import com.capstone.padicare.ui.feed.FeedViewModel
 import com.capstone.padicare.ui.home.HomeViewModel
 import com.capstone.padicare.ui.login.LoginViewModel
 import com.capstone.padicare.ui.news.NewsViewModel
@@ -32,6 +33,9 @@ class ViewModelFactory (private val repo: UserRepository): ViewModelProvider.New
             }
             modelClass.isAssignableFrom(RegisterViewModel::class.java) -> {
                 RegisterViewModel(repo) as i
+            }
+            modelClass.isAssignableFrom(FeedViewModel::class.java) -> {
+                FeedViewModel(repo) as i
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class:"+modelClass.name)
