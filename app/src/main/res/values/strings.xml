@@ -62,4 +62,5 @@
     <string name="description">Tuliskan yang anda pikirkan</string>
     <string name="title">Tuliskan judul postingan</string>
     <string name="kirim">Kirim</string>
+    <string name="send">Kirim</string>
 </resources>
