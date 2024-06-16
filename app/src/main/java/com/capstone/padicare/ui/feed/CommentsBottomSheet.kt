@@ -11,14 +11,15 @@ import android.widget.EditText
 import android.widget.Toast
 import com.capstone.padicare.R
 import com.capstone.padicare.data.response.CommentRequest
+import com.capstone.padicare.data.response.CommentResponse
 import com.capstone.padicare.data.retrofit.ApiConfig
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import retrofit2.Call
-import retrofit2.Callback
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class CommentsBottomSheet : BottomSheetDialogFragment() {
-
+class CommentsBottomSheet(private val id: Int) : BottomSheetDialogFragment() {
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
@@ -27,7 +28,6 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_comments_bottom_sheet, container, false)
 
-        val id = arguments?.getInt("id") ?: 0
         val commentEditText: EditText = view.findViewById(R.id.etNewComment)
         val sendButton: Button = view.findViewById(R.id.btnSubmitComment)
 
@@ -50,8 +50,9 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
         var token = sharedPreferences.getString("token", "") ?: ""
         token = "Bearer $token"
 
-        apiService.postComment(comment.id, comment, token).enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response: Response<CommentResponse> = apiService.postComment(comment.id, comment, token)
                 activity?.runOnUiThread {
                     if (response.isSuccessful) {
                         Toast.makeText(context, "Comment posted successfully", Toast.LENGTH_SHORT).show()
@@ -60,13 +61,11 @@ class CommentsBottomSheet : BottomSheetDialogFragment() {
                         Toast.makeText(context, "Failed to post comment", Toast.LENGTH_SHORT).show()
                     }
                 }
-            }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
+            } catch (e: Exception) {
                 activity?.runOnUiThread {
-                    Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
-        })
+        }
     }
 }

@@ -3,8 +3,10 @@ package com.capstone.padicare.data.retrofit
 import com.capstone.padicare.data.pref.UserModel
 import com.capstone.padicare.data.response.BaseResponse
 import com.capstone.padicare.data.response.CommentRequest
+import com.capstone.padicare.data.response.CommentResponse
 import com.capstone.padicare.data.response.CreatedResponse
 import com.capstone.padicare.data.response.Data
+import com.capstone.padicare.data.response.DataItem
 import com.capstone.padicare.data.response.LoginRequest
 import com.capstone.padicare.data.response.LoginResponse
 import com.capstone.padicare.data.response.PostRequest
@@ -45,5 +47,8 @@ interface ApiService {
     suspend fun getPosts(@Header("Authorization") token: String): Response<BaseResponse<List<PostResponse>>>
 
     @POST("/api/posts/{id}/comment")
-    fun postComment(@Path("id") id: Int, @Body comment: CommentRequest, @Header("Authorization") token: String): Call<Void>
+    suspend fun postComment(@Path("id") id: Int, @Body comment: CommentRequest, @Header("Authorization") token: String): Response<CommentResponse>
+
+    @GET("/api/posts/{id}")
+    suspend fun getComment(@Header("Authorization") token: String, @Path("id") id: Int): Response<BaseResponse<List<DataItem>>>
 }

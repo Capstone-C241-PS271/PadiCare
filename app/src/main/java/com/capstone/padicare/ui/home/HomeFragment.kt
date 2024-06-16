@@ -101,7 +101,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun showCommentsBottomSheet(post: PostResponse) {
-        val bottomSheet = CommentsBottomSheet()
+        val bottomSheet = CommentsBottomSheet(post.id)
         bottomSheet.show(parentFragmentManager, "CommentsBottomSheet")
     }
 
