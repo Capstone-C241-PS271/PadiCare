@@ -18,10 +18,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone.padicare.MainActivity
 import com.capstone.padicare.R
+import com.capstone.padicare.data.response.PostResponse
 import com.capstone.padicare.data.retrofit.ApiConfig
 import com.capstone.padicare.databinding.FragmentHomeBinding
 import com.capstone.padicare.model.ViewModelFactory
 import com.capstone.padicare.helper.ResultState
+import com.capstone.padicare.ui.feed.CommentsBottomSheet
 import com.capstone.padicare.ui.feed.FeedAdapter
 import com.capstone.padicare.ui.feed.FeedAddActivity
 import com.capstone.padicare.ui.login.LoginActivity
@@ -48,16 +50,11 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
 
-        feedAdapter = FeedAdapter(emptyList())
-        binding.rvFeed.adapter = feedAdapter
-        binding.rvFeed.layoutManager = LinearLayoutManager(requireContext())
-
         sharedPreferences = requireActivity().getSharedPreferences("PadiCarePreferences", Context.MODE_PRIVATE)
         val token = sharedPreferences.getString("token", "") ?: ""
 
         if (token.isNotEmpty()) {
             viewModel.fetchUserInfo(token).observe(viewLifecycleOwner, Observer { result ->
-
                 when (result) {
                     is ResultState.Success -> {
                         val user = result.data
@@ -82,6 +79,12 @@ class HomeFragment : Fragment() {
             redirectToLogin()
         }
 
+        feedAdapter = FeedAdapter(emptyList()) { post ->
+            showCommentsBottomSheet(post)
+        }
+        binding.rvFeed.adapter = feedAdapter
+        binding.rvFeed.layoutManager = LinearLayoutManager(requireContext())
+
         _binding?.imgToScan?.setOnClickListener {
             val intent = Intent(requireContext(), MainActivity::class.java)
             intent.putExtra("navigateTo", "ScanFragment")
@@ -97,6 +100,11 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun showCommentsBottomSheet(post: PostResponse) {
+        val bottomSheet = CommentsBottomSheet(post.id)
+        bottomSheet.show(parentFragmentManager, "CommentsBottomSheet")
+    }
+
     private suspend fun getPosts(){
         val apiService = ApiConfig.getApiService()
         sharedPreferences = requireActivity().getSharedPreferences("PadiCarePreferences", Context.MODE_PRIVATE)
@@ -109,7 +117,9 @@ class HomeFragment : Fragment() {
             if (response.isSuccessful){
                 val postResponse = response.body()
                 val postList = postResponse?.data?.reversed()
-                feedAdapter = FeedAdapter(postList)
+                feedAdapter = FeedAdapter(postList.orEmpty()) { post ->
+                    showCommentsBottomSheet(post)
+                }
                 binding.rvFeed.adapter = feedAdapter
             } else{
                 Log.e("FeedActivity", "Failed to fetch posts: ${response.code()}")
