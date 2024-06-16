@@ -1,32 +1,44 @@
 package com.capstone.padicare.ui.feed
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import com.capstone.padicare.R
-import com.capstone.padicare.data.response.DataItem
 
-class CommentsAdapter(private val commentsList: MutableList<DataItem>
+import android.annotation.SuppressLint
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.capstone.padicare.data.response.CommentResponse
+import com.capstone.padicare.databinding.CommentItemBinding
+
+class CommentsAdapter(
+    private val comments: ArrayList<CommentResponse>
 ) : RecyclerView.Adapter<CommentsAdapter.CommentViewHolder>() {
 
-    class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val commentTextView: TextView = itemView.findViewById(R.id.commentTextView)
-    }
+    private lateinit var binding: CommentItemBinding
+
+    inner class CommentViewHolder(val binding: CommentItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.comment_item, parent, false)
-        return CommentViewHolder(view)
+        binding = CommentItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+
+        return CommentViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return commentsList.size
-    }
+    override fun getItemCount(): Int = comments.size
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
-        val comment = commentsList[position]
-        holder.commentTextView.text = comment.content
+        val item = comments[position]
+        binding.name.text = item.author
+        binding.content.text = item.content
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun dispatch(data: ArrayList<CommentResponse>) {
+        comments.clear()
+        comments.addAll(data)
+        notifyDataSetChanged()
+    }
 }

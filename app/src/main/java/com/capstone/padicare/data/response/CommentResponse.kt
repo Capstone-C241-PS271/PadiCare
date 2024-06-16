@@ -3,25 +3,13 @@ package com.capstone.padicare.data.response
 import com.google.gson.annotations.SerializedName
 
 data class CommentResponse(
-
-	@field:SerializedName("data")
-	val data: List<DataItem?>? = null
-)
-
-data class DataItem(
-
-	@field:SerializedName("updated_at")
-	val updatedAt: String? = null,
-
-	@field:SerializedName("author")
-	val author: String? = null,
+	val id: Int,
+	val author: String,
+	val content: String,
 
 	@field:SerializedName("created_at")
-	val createdAt: String? = null,
+	val createdAt: String,
 
-	@field:SerializedName("id")
-	val id: Int? = null,
-
-	@field:SerializedName("content")
-	val content: String? = null
+	@field:SerializedName("updated_at")
+	val updatedAt: String,
 )

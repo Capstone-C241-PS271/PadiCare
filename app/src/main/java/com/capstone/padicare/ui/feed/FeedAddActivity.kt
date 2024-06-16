@@ -1,6 +1,7 @@
 package com.capstone.padicare.ui.feed
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.Typeface
@@ -12,6 +13,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.capstone.padicare.MainActivity
 import com.capstone.padicare.R
 import com.capstone.padicare.data.response.PostRequest
 import com.capstone.padicare.databinding.ActivityFeedAddBinding
@@ -51,7 +53,7 @@ class FeedAddActivity : AppCompatActivity() {
         postViewModel.feedResult.observe(this, Observer { result ->
             result.onSuccess {
                 Toast.makeText(this, "Post created successfully", Toast.LENGTH_SHORT).show()
-                finish()
+                startActivity(Intent(this, MainActivity::class.java))
             }.onFailure {
                 Toast.makeText(this, "Failed to create post", Toast.LENGTH_SHORT).show()
             }

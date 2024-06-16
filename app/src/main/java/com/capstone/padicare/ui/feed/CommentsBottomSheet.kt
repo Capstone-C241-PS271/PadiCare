@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,29 +12,31 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.load.engine.Resource
 import com.capstone.padicare.R
 import com.capstone.padicare.data.response.CommentRequest
-import com.capstone.padicare.data.response.CommentResponse
-import com.capstone.padicare.data.response.DataItem
 import com.capstone.padicare.data.retrofit.ApiConfig
+import com.capstone.padicare.data.retrofit.ApiService
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.await
 
 class CommentsBottomSheet(private val id: Int) : BottomSheetDialogFragment() {
+
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var dialog: BottomSheetDialog
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
-    private val commentsList: List<DataItem> = mutableListOf()
-    private lateinit var commentsAdapter: CommentsAdapter
-
+    private lateinit var commentAdapter: CommentsAdapter
+    private val apiService = ApiConfig.getApiService()
+    private lateinit var input: EditText
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
@@ -48,16 +49,11 @@ class CommentsBottomSheet(private val id: Int) : BottomSheetDialogFragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_comments_bottom_sheet, container, false)
 
-        val commentEditText: EditText = view.findViewById(R.id.etNewComment)
+        input = view.findViewById(R.id.etNewComment)
         val sendButton: Button = view.findViewById(R.id.btnSubmitComment)
-        val commentsRecyclerView: RecyclerView = view.findViewById(R.id.rvComments)
-
-        commentsAdapter = CommentsAdapter(commentsList)
-        commentsRecyclerView.layoutManager = LinearLayoutManager(context)
-        commentsRecyclerView.adapter = commentsAdapter
 
         sendButton.setOnClickListener {
-            val content = commentEditText.text.toString()
+            val content = input.text.toString()
             if (content.isNotEmpty()) {
                 val comment = CommentRequest(content)
                 postComment(comment, id)
@@ -77,52 +73,57 @@ class CommentsBottomSheet(private val id: Int) : BottomSheetDialogFragment() {
 
         val layout = dialog.findViewById<CoordinatorLayout>(R.id.commentLayout)
         layout?.minimumHeight = Resources.getSystem().displayMetrics.heightPixels
+
+        sharedPreferences =
+            requireContext().getSharedPreferences("PadiCarePreferences", Context.MODE_PRIVATE)
+
+        loadComments()
+    }
+
+    private fun loadComments() {
+        var token = sharedPreferences.getString("token", "") ?: ""
+        token = "Bearer $token"
+
+        commentAdapter = CommentsAdapter(arrayListOf())
+        val container = dialog.findViewById<RecyclerView>(R.id.rvComments)
+        container?.adapter = commentAdapter
+        container?.layoutManager = LinearLayoutManager(requireContext())
+
+
+        lifecycleScope.launch {
+            try {
+                val comments = apiService.getComments(id, token).await()
+                commentAdapter.dispatch(comments.data.toCollection(ArrayList()))
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun postComment(comment: CommentRequest, postId: Int) {
         val apiService = ApiConfig.getApiService()
-        sharedPreferences = requireContext().getSharedPreferences("PadiCarePreferences", Context.MODE_PRIVATE)
         var token = sharedPreferences.getString("token", "") ?: ""
         token = "Bearer $token"
 
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response: Response<CommentResponse> = apiService.postComment(postId, comment, token)
+        apiService.postComment(postId, comment, token).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 activity?.runOnUiThread {
                     if (response.isSuccessful) {
-                        Toast.makeText(context, "Comment posted successfully", Toast.LENGTH_SHORT).show()
-                        dismiss()
+                        Toast.makeText(context, "Comment posted successfully", Toast.LENGTH_SHORT)
+                            .show()
+                        input.text.clear()
+                        loadComments()
                     } else {
                         Toast.makeText(context, "Failed to post comment", Toast.LENGTH_SHORT).show()
                     }
                 }
-            } catch (e: Exception) {
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
                 activity?.runOnUiThread {
-                    Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             }
-        }
-    }
-
-    private suspend fun getComment(){
-        val apiService = ApiConfig.getApiService()
-        sharedPreferences = requireActivity().getSharedPreferences("PadiCarePreferences", Context.MODE_PRIVATE)
-        var token = sharedPreferences.getString("token", "")?:""
-
-        try {
-            val response = withContext(Dispatchers.IO){
-                apiService.getPosts("Bearer $token")
-            }
-            if (response.isSuccessful){
-                val commentResponse = response.body()
-                val commentList = commentResponse?.data?.reversed()
-                commentsAdapter = CommentsAdapter(commentList)
-
-            } else{
-                Log.e("FeedActivity", "Failed to fetch posts: ${response.code()}")
-            }
-        } catch (e: Exception){
-            Log.e("FeedActivity", "Error: ${e.message}")
-        }
+        })
     }
 }
