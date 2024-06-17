@@ -1,5 +1,6 @@
 package com.capstone.padicare.ui.feed
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -7,6 +8,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -44,13 +46,17 @@ class FeedAddActivity : AppCompatActivity() {
                     title = title,
                     content = content
                 )
+                binding.progressBar.visibility = View.VISIBLE
+
                 postViewModel.createPost(token, post)
             } else {
-                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+                showAlert("Please fill in all fields")
             }
         }
 
         postViewModel.feedResult.observe(this, Observer { result ->
+            binding.progressBar.visibility = View.GONE
+
             result.onSuccess {
                 Toast.makeText(this, "Post created successfully", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, MainActivity::class.java))
@@ -84,6 +90,18 @@ class FeedAddActivity : AppCompatActivity() {
             setDisplayShowTitleEnabled(false)
             setCustomView(textView)
             setDisplayShowCustomEnabled(true)
+        }
+    }
+
+    private fun showAlert(message: String) {
+        AlertDialog.Builder(this).apply {
+            setTitle("Warning")
+            setMessage(message)
+            setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            create()
+            show()
         }
     }
 }

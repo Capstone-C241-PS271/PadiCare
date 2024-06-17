@@ -7,9 +7,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone.padicare.R
-import com.capstone.padicare.data.response.Data
 import com.capstone.padicare.data.response.PostResponse
-import com.capstone.padicare.helper.toDateFormat
+import com.capstone.padicare.helper.toDateFormatNoTime
 
 class FeedAdapter(
     private val feedList: List<PostResponse>?,
@@ -37,7 +36,7 @@ class FeedAdapter(
         val feed = feedList?.get(position)
         holder.nameFeedTextView.text = feed?.author.toString()
         holder.titleFeedTextView.text = feed?.title
-        holder.createAtTextView.text = feed?.createdAt?.toDateFormat()
+        holder.createAtTextView.text = feed?.createdAt?.toDateFormatNoTime()
         holder.storyAddTextView.text = feed?.content
         holder.commentButton.setOnClickListener {
             feed?.let { onCommentButtonClick(it) }

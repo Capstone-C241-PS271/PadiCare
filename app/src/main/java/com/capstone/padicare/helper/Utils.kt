@@ -17,3 +17,15 @@ fun String.toDateFormat(): String? {
         null
     }
 }
+
+fun String.toDateFormatNoTime(): String? {
+    return try {
+        val inputFormat = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US)
+        val dateFormatted = inputFormat.parse(this) as Date
+        val outputFormat = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale("in", "ID"))
+        outputFormat.format(dateFormatted)
+    } catch (e: ParseException) {
+        e.printStackTrace()
+        null
+    }
+}
