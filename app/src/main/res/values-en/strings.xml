@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PadiCare</string>
+    <string name="signup">Sign Up</string>
+    <string name="signin">Sign In</string>
+    <string name="no_account">Don\'t have an account yet?</string>
+    <string name="have_account">Already have an account?</string>
+    <string name="register_here">Register Here</string>
+    <string name="login_here">Login Here</string>
+    <string name="change_language">Change Language</string>
+    <string name="logout">LOGOUT</string>
+    <string name="newsTitle">News Title</string>
+    <string name="linkNews">Read More</string>
+    <string name="contact">Contact Us</string>
+    <string name="deskripsiAbout">Our team came up with the idea of the PadiCare app after realizing the challenges that rice farmers face in detecting diseases that threaten their crops. We realized the urgent need for a solution that can simplify the disease detection process and help farmers protect their rice crop effectively. We focus on user-friendly design and aim to bridge the gap between technology and farmers with minimal technical skills, ensuring wide accessibility and usability of the app. Our team\'s commitment to supporting farmers and improving agricultural practices led us to develop PadiCare, a practical tool designed to simplify disease detection and promote sustainable agricultural practices.</string>
+    <string name="analyze">ANALYSIS</string>
+    <string name="gallery">"GALLERY "</string>
+    <string name="alert_invalid_email">Email Invalid</string>
+    <string name="passMustbe">The password must not be less than 8 characters</string>
+    <string name="emailValid">Fill in the Email First</string>
+    <string name="passwordValid">Fill in the Password First</string>
+    <string name="loginSuccess">Login Successful</string>
+    <string name="next">Next</string>
+    <string name="login_failed_title">Login Failed</string>
+    <string name="login_failed_message">Email or Password you entered is incorrect</string>
+    <string name="retry">Try Again</string>
+    <string name="error_empty_email">Fill in the Email First</string>
+    <string name="error_empty_password">Fill in the Password First</string>
+    <string name="error_invalid_email">Email must use @</string>
+    <string name="error_short_password">Password must have 8 characters</string>
+    <string name="error_empty_username">Fill in Username First</string>
+    <string name="result_title">Result</string>
+    <string name="post">Post</string>
+    <string name="welcome">Welcome</string>
+    <string name="login_first">Please Login First</string>
+    <string name="sigup_first">Please Register First</string>
+</resources>

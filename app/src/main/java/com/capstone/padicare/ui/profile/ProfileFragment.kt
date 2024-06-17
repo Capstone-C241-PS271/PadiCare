@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.capstone.padicare.R
+import android.provider.Settings
 import com.capstone.padicare.databinding.FragmentProfileBinding
 import com.capstone.padicare.helper.ResultState
 import com.capstone.padicare.model.ViewModelFactory
@@ -79,6 +80,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         } else {
             Toast.makeText(requireContext(), "Token is missing", Toast.LENGTH_SHORT).show()
         }
+        setupView()
     }
 
     override fun onClick(v: View?) {
@@ -102,6 +104,14 @@ class ProfileFragment : Fragment(), View.OnClickListener {
             }
             R.id.buttonLogout -> {
                 confirmlogout()
+            }
+        }
+    }
+
+    private fun setupView() {
+        binding.apply {
+            btnBahasa.setOnClickListener {
+                startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
             }
         }
     }

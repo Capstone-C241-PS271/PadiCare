@@ -1,31 +1,31 @@
 <resources>
     <string name="app_name">PadiCare</string>
-    <string name="signup">Sign Up</string>
-    <string name="signin">Sign In</string>
+    <string name="signup">Daftar</string>
+    <string name="signin">Masuk</string>
     <string name="no_account">Belum Mempunyai Akun ?</string>
     <string name="have_account">Sudah Mempunyai Akun ?</string>
     <string name="register_here">Daftar Disini\n</string>
     <string name="login_here">Masuk Disini</string>
-    <string name="home">Home</string>
-    <string name="berita">News</string>
-    <string name="history">History</string>
-    <string name="scan">Scan</string>
-    <string name="profile">Profile</string>
+    <string name="home" translatable="false">Home</string>
+    <string name="berita" translatable="false">News</string>
+    <string name="history" translatable="false">History</string>
+    <string name="scan" translatable="false">Scan</string>
+    <string name="profile" translatable="false">Profile</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="change_language">Change Language</string>
-    <string name="logout">LOGOUT</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="change_language">Ubah Bahasa</string>
+    <string name="logout">KELUAR</string>
     <string name="newsTitle">Judul Berita</string>
     <string name="linkNews">Baca Selengkapnya</string>
-    <string name="contact">Contact Us</string>
+    <string name="contact">Hubungi Kami</string>
     <string name="deskripsiAbout">Tim kami menemukan ide aplikasi PadiCare setelah menyadari tantangan yang dihadapi petani padi dalam mendeteksi penyakit yang mengancam tanaman mereka. Kami menyadari adanya kebutuhan mendesak akan solusi yang dapat menyederhanakan proses deteksi penyakit dan membantu petani melindungi tanaman padi mereka secara efektif. Kami fokus pada desain yang mudah digunakan dan bertujuan untuk menjembatani kesenjangan antara teknologi dan petani dengan keterampilan teknis yang minim, memastikan aksesibilitas yang luas dan kegunaan aplikasi. Komitmen tim kami untuk mendukung petani dan meningkatkan praktik pertanian mendorong kami untuk mengembangkan PadiCare, sebuah alat praktis yang dirancang untuk menyederhanakan deteksi penyakit dan mempromosikan praktik pertanian yang berkelanjutan.</string>
     <string name="analyze">ANALISA</string>
     <string name="gallery">GALERI</string>
-    <string name="alert_invalid_email">Email Invalid</string>
-    <string name="passMustbe">The password must not be less than 8 characters</string>
+    <string name="alert_invalid_email">Email Tidak Valid</string>
+    <string name="passMustbe">Kata sandi tidak boleh kurang dari 8 karakter</string>
     <string name="emailValid">Isi Email Terlebih Dahulu</string>
     <string name="passwordValid">Isi Password Terlebih Dahulu</string>
-    <string name="loginSuccess">Login Successful</string>
+    <string name="loginSuccess">Login Berhasil</string>
     <string name="next">Next</string>
 
     <string name="hi" translatable="false">Hi, %1$s</string>
@@ -41,16 +41,16 @@
     <string name="post">Post</string>
     <string name="welcome">Selamat Datang</string>
     <string name="login_first">Silahkan Login Terlebih Dahulu</string>
-    <string name="e_mail">E-mail</string>
-    <string name="password">Password</string>
+    <string name="e_mail" translatable="false">E-mail</string>
+    <string name="password" translatable="false">Password</string>
     <string name="sigup_first">Silahkan Daftar Terlebih Dahulu</string>
-    <string name="username">Username</string>
+    <string name="username" translatable="false">Username</string>
     <string name="hasil">Hasil :</string>
     <string name="hasil_prediksi">Hasil Prediksi</string>
     <string name="saran">Saran :</string>
-    <string name="machine_learning">Machine Learning</string>
-    <string name="cloud_computing">Cloud Computing</string>
-    <string name="mobile_development">Mobile Development</string>
+    <string name="machine_learning" translatable="false">Machine Learning</string>
+    <string name="cloud_computing" translatable="false">Cloud Computing</string>
+    <string name="mobile_development" translatable="false">Mobile Development</string>
     <string name="button_add_feed">Button Add Feed</string>
     <string name="img_btn_scan">Image Button To Scan</string>
     <string name="btn_img_to_scan">Scan Padi Disini</string>
