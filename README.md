@@ -8,6 +8,12 @@ Our team came up with the idea of the PadiCare app after realizing the challenge
 - Display scanning history results that can be viewed again
 - There is news about Agriculture
 
+<h3>Permission</h3>
+
+- Internet
+- Camera
+- Gallery
+
 <h3>Mobile Development Team</h3>
 
 - Novriyan Ferdiyanto (A107D4KY4250)
