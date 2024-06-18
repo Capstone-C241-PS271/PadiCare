@@ -19,11 +19,11 @@
         android:id="@+id/captureImage"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/buttoncamera2"/>
+        app:srcCompat="@drawable/buttoncamera2" />
 
     <ImageView
         android:id="@+id/switchCamera"
