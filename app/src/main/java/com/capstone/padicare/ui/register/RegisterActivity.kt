@@ -71,9 +71,9 @@ class RegisterActivity : AppCompatActivity() {
                         result.data.let { data ->
                             data.message?.let { message ->
                                 AlertDialog.Builder(this).apply {
-                                    setTitle("Selamat!")
-                                    setMessage("Akun dengan $email sudah jadi nih. Silahkan, Login.")
-                                    setPositiveButton("Next") { _, _ ->
+                                    setTitle(getString(R.string.register_success_title))
+                                    setMessage(getString(R.string.register_success_message, email))
+                                    setPositiveButton(getString(R.string.register_success_button)) { _, _ ->
                                         finish()
                                         startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
                                     }
@@ -86,13 +86,14 @@ class RegisterActivity : AppCompatActivity() {
                     is ResultState.Error -> {
                         showLoading(false)
                         AlertDialog.Builder(this).apply {
-                            setTitle("Sorry..")
+                            setTitle(getString(R.string.title_error))
                             setMessage(result.error)
-                            setPositiveButton("Try Again") { _, _, ->
+                            setPositiveButton(getString(R.string.try_again)) { dialog, which ->
                             }
                             create()
                             show()
                         }
+
                     }
                     is ResultState.Loading -> showLoading(true)
                 }

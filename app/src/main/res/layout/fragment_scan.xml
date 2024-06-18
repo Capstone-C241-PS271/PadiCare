@@ -37,15 +37,16 @@
 
         <ImageView
             android:id="@+id/previewImageView"
-            android:layout_width="307dp"
-            android:layout_height="380dp"
-            android:layout_marginTop="32dp"
+            android:layout_width="330dp"
+            android:layout_height="400dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
             android:contentDescription="@string/image"
             app:layout_constraintBottom_toTopOf="@+id/galleryButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
-            app:srcCompat="@drawable/ic_baseline_scan_24" />
+            app:srcCompat="@drawable/scanicon" />
 
         <Button
             android:id="@+id/galleryButton"

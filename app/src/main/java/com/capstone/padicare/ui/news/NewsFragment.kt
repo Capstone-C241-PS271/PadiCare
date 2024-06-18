@@ -88,6 +88,4 @@ class NewsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

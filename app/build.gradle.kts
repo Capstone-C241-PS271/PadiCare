@@ -52,33 +52,24 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-
     implementation (libs.material.v140)
-
     implementation (libs.androidx.navigation.fragment.ktx)
     implementation (libs.androidx.navigation.ui.ktx.v260)
-
     implementation(libs.androidx.camera.camera2)
     implementation(libs.androidx.camera.lifecycle)
     implementation(libs.androidx.camera.view)
-
     implementation (libs.androidx.camera.core)
     implementation (libs.androidx.camera.camera2.v133)
     implementation (libs.androidx.camera.lifecycle.v133)
     implementation (libs.androidx.camera.view.v133)
     implementation (libs.androidx.camera.extensions)
-
     implementation (libs.androidx.navigation.fragment.ktx.v253)
     implementation (libs.androidx.navigation.ui.ktx.v253)
-
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.activity.ktx)
     implementation (libs.glide)
-
-    // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)

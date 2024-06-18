@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/white"
     android:id="@+id/commentLayout"
@@ -18,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
-            android:text="Comments"
+            android:text="@string/comments"
             android:textSize="20sp"
             android:layout_alignParentTop="true"
             android:textStyle="bold" />
@@ -31,11 +29,10 @@
             android:layout_marginTop="7dp"
             android:orientation="vertical" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/bottomLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="@color/white"
             android:layout_alignParentBottom="true">
 
@@ -43,18 +40,17 @@
                 android:id="@+id/etNewComment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Add a comment"
+                android:layout_toStartOf="@+id/btnSubmitComment"
+                android:hint="@string/add_a_comment"
                 android:minHeight="48dp" />
 
             <Button
                 android:id="@+id/btnSubmitComment"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:drawableEnd="@drawable/baseline_send_24"
-                android:text="@string/send" />
-        </LinearLayout>
-
+                android:background="@android:color/transparent"/>
+        </RelativeLayout>
     </RelativeLayout>
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

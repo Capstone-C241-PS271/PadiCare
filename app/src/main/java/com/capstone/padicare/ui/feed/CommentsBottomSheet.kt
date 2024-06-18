@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,7 +59,7 @@ class CommentsBottomSheet(private val id: Int) : BottomSheetDialogFragment() {
                 val comment = CommentRequest(content)
                 postComment(comment, id)
             } else {
-                Toast.makeText(context, "Comment cannot be empty", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.comment_empty, Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -89,13 +90,12 @@ class CommentsBottomSheet(private val id: Int) : BottomSheetDialogFragment() {
         container?.adapter = commentAdapter
         container?.layoutManager = LinearLayoutManager(requireContext())
 
-
         lifecycleScope.launch {
             try {
                 val comments = apiService.getComments(id, token).await()
                 commentAdapter.dispatch(comments.data.toCollection(ArrayList()))
             } catch (e: Exception) {
-                Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
+                Log.d("CommentsBottomSheet", "Error loading comments")
             }
         }
     }
@@ -109,16 +109,14 @@ class CommentsBottomSheet(private val id: Int) : BottomSheetDialogFragment() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 activity?.runOnUiThread {
                     if (response.isSuccessful) {
-                        Toast.makeText(context, "Comment posted successfully", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(context, R.string.comment_posted, Toast.LENGTH_SHORT).show()
                         input.text.clear()
                         loadComments()
                     } else {
-                        Toast.makeText(context, "Failed to post comment", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.comment_failed, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
-
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 activity?.runOnUiThread {
                     Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()

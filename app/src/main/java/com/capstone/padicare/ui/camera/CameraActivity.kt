@@ -40,6 +40,7 @@ class CameraActivity : AppCompatActivity() {
         }
 
         supportActionBar?.hide()
+        setupView()
 
         binding.captureImage.setOnClickListener { takePhoto() }
         binding.switchCamera.setOnClickListener { switchCamera() }

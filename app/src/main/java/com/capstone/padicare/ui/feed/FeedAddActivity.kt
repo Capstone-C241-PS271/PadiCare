@@ -50,7 +50,7 @@ class FeedAddActivity : AppCompatActivity() {
 
                 postViewModel.createPost(token, post)
             } else {
-                showAlert("Please fill in all fields")
+                showAlert(getString(R.string.fill_all_fields_message))
             }
         }
 
@@ -58,10 +58,10 @@ class FeedAddActivity : AppCompatActivity() {
             binding.progressBar.visibility = View.GONE
 
             result.onSuccess {
-                Toast.makeText(this, "Post created successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.post_created_successfully, Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, MainActivity::class.java))
             }.onFailure {
-                Toast.makeText(this, "Failed to create post", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.post_creation_failed, Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -95,7 +95,6 @@ class FeedAddActivity : AppCompatActivity() {
 
     private fun showAlert(message: String) {
         AlertDialog.Builder(this).apply {
-            setTitle("Warning")
             setMessage(message)
             setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()

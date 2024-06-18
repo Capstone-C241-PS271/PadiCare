@@ -27,7 +27,6 @@
     <string name="passwordValid">Isi Password Terlebih Dahulu</string>
     <string name="loginSuccess">Login Berhasil</string>
     <string name="next">Next</string>
-
     <string name="hi" translatable="false">Hi, %1$s</string>
     <string name="login_failed_title">Login Gagal</string>
     <string name="login_failed_message">Email atau Password yang anda masukkan salah</string>
@@ -51,8 +50,8 @@
     <string name="machine_learning" translatable="false">Machine Learning</string>
     <string name="cloud_computing" translatable="false">Cloud Computing</string>
     <string name="mobile_development" translatable="false">Mobile Development</string>
-    <string name="button_add_feed">Button Add Feed</string>
-    <string name="img_btn_scan">Image Button To Scan</string>
+    <string name="button_add_feed">Menambahkan Postingan</string>
+    <string name="img_btn_scan">Tombol Gambar Untuk Memindai</string>
     <string name="btn_img_to_scan">Scan Padi Disini</string>
     <string name="yes">Iya</string>
     <string name="no">Tidak</string>
@@ -63,5 +62,19 @@
     <string name="title">Tuliskan judul postingan</string>
     <string name="kirim">Kirim</string>
     <string name="send">Kirim</string>
-    <string name="image">Image</string>
+    <string name="image">Gambar</string>
+    <string name="about_app">Tentang Aplikasi</string>
+    <string name="comment_empty">Komentar tidak boleh kosong</string>
+    <string name="comment_posted">Komentar berhasil ditambahkan</string>
+    <string name="comment_failed">Gagal mengirim komentar</string>
+    <string name="post_created_successfully">Postingan berhasil dibuat</string>
+    <string name="post_creation_failed">Gagal membuat postingan</string>
+    <string name="fill_all_fields_message">Harap isi semua kolom</string>
+    <string name="register_success_title">Selamat</string>
+    <string name="register_success_message">Akun dengan %1$s sudah jadi nih, silahkan Login</string>
+    <string name="register_success_button">Selanjutnya</string>
+    <string name="title_error">Maaf</string>
+    <string name="try_again">Coba Lagi</string>
+    <string name="comments">Komentar</string>
+    <string name="add_a_comment">Tambahkan komentar</string>
 </resources>
