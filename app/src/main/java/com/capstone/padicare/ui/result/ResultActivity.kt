@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide
 import com.capstone.padicare.MainActivity
 import com.capstone.padicare.R
 import com.capstone.padicare.databinding.ActivityResultBinding
-import com.squareup.picasso.Picasso
 
 class ResultActivity : AppCompatActivity() {
     private lateinit var binding: ActivityResultBinding
@@ -47,16 +46,11 @@ class ResultActivity : AppCompatActivity() {
         val predictionResult = intent.getStringExtra("predictionResult")
         val suggestion = intent.getStringExtra("suggestion")
 
-        val glide = Glide.with(applicationContext)
+        val glide = Glide.with(this)
         val imageView = findViewById<ImageView>(R.id.iv_result)
         glide
             .load(imageUriString)
-            .placeholder(R.drawable.bouncing_circles)
-            .into(imageView)
-
-        Picasso.get()
-            .load(imageUriString)
-            .placeholder(R.drawable.bouncing_circles)
+            .placeholder(R.drawable.progress_animation)
             .into(imageView)
 
         imageUriString?.let {
