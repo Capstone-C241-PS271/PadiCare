@@ -192,12 +192,10 @@ class ScanFragment : Fragment() {
                 val predictResponse = response.body()
                 val predictionResult = predictResponse?.data?.result ?: "Unknown"
                 val suggestion = predictResponse?.data?.suggestion ?: "No suggestion available"
+                val imageUri = predictResponse?.data?.image
 
                 Log.d("ScanFragment", "Prediction Result: $predictionResult")
                 Log.d("ScanFragment", "Suggestion: $suggestion")
-
-                val imageUri = saveImageAndGetUri(bitmap)
-                Log.d("ScanFragment", "Image URI: $imageUri")
 
                 val intent = Intent(requireContext(), ResultActivity::class.java).apply {
                     putExtra("imageUri", imageUri.toString())
@@ -217,17 +215,6 @@ class ScanFragment : Fragment() {
             progressBar.visibility = View.GONE
         }
     }
-
-
-    private fun saveImageAndGetUri(bitmap: Bitmap): Uri {
-        val filename = "temp_image.jpg"
-        val file = File(requireContext().cacheDir, filename)
-        FileOutputStream(file).use { fos ->
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
-        }
-        return FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", file)
-    }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
