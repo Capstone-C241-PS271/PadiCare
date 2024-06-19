@@ -4,14 +4,13 @@
     <string name="signin">Masuk</string>
     <string name="no_account">Belum Mempunyai Akun ?</string>
     <string name="have_account">Sudah Mempunyai Akun ?</string>
-    <string name="register_here">Daftar Disini\n</string>
+    <string name="register_here">"Daftar Disini "</string>
     <string name="login_here">Masuk Disini</string>
     <string name="home" translatable="false">Home</string>
     <string name="berita" translatable="false">News</string>
     <string name="history" translatable="false">History</string>
     <string name="scan" translatable="false">Scan</string>
     <string name="profile" translatable="false">Profile</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="change_language">Ubah Bahasa</string>
     <string name="logout">KELUAR</string>

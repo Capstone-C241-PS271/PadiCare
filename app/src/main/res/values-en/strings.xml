@@ -3,8 +3,8 @@
     <string name="app_name">PadiCare</string>
     <string name="signup">Sign Up</string>
     <string name="signin">Sign In</string>
-    <string name="no_account">Don\'t have an account yet?</string>
-    <string name="have_account">Already have an account?</string>
+    <string name="no_account">Don\'t have an account yet ?</string>
+    <string name="have_account">Already have an account ?</string>
     <string name="register_here">Register Here</string>
     <string name="login_here">Login Here</string>
     <string name="change_language">Change Language</string>
