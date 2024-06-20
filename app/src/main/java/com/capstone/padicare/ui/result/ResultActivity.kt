@@ -41,7 +41,6 @@ class ResultActivity : AppCompatActivity() {
             setDisplayShowCustomEnabled(true)
         }
 
-
         val imageUriString = intent.getStringExtra("imageUri")
         val predictionResult = intent.getStringExtra("predictionResult")
         val suggestion = intent.getStringExtra("suggestion")
